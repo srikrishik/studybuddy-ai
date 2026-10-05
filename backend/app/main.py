@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from app.services.ai_engine import (
@@ -7,10 +8,21 @@ from app.services.ai_engine import (
     AIProviderTimeoutError,
 )
 
+
 app = FastAPI(
     title="StudyBuddy AI",
     description="Your Personal Open-Source Learning Companion",
     version="0.1.0",
+)
+
+
+# Allow the frontend to communicate with the backend.
+# For local development only; restrict origins before deployment.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -27,40 +39,101 @@ def health_check():
     }
 
 
-# Request model for study notes
+# ============================================================
+# STUDY NOTES
+# ============================================================
+
 class StudyNotesRequest(BaseModel):
     topic: str = Field(min_length=1, max_length=200)
     difficulty: str = Field(default="beginner", max_length=50)
 
 
-# Existing Study Notes endpoint (placeholder for now)
 @app.post("/study-notes")
 def generate_study_notes(request: StudyNotesRequest):
-    return {
-        "topic": request.topic,
-        "difficulty": request.difficulty,
-        "notes": (
-            f"Study notes for {request.topic} "
-            f"will be generated at the {request.difficulty} level."
-        ),
-        "status": "success",
-    }
+
+    prompt = f"""
+You are StudyBuddy AI, a friendly and patient study tutor.
+
+Create study notes about the topic below.
+
+Topic:
+{request.topic}
+
+Difficulty level:
+{request.difficulty}
+
+Follow these rules:
+
+1. Start with a clear title.
+2. Give a simple definition or introduction.
+3. Explain the important concepts.
+4. Use bullet points where useful.
+5. Include a short Python code example if the topic is related to programming.
+6. Explain the code briefly.
+7. End with a short "Key Takeaways" section.
+8. Keep the explanation focused and beginner-friendly.
+9. Avoid unnecessary repetition.
+
+Return only the study notes.
+"""
+
+    try:
+        notes = get_ai_response(prompt)
+
+        return {
+            "topic": request.topic,
+            "difficulty": request.difficulty,
+            "notes": notes,
+            "status": "success",
+        }
+
+    except AIProviderTimeoutError as exc:
+        raise HTTPException(
+            status_code=504,
+            detail=(
+                "The AI tutor took too long to generate the study notes. "
+                "Please try again."
+            ),
+        ) from exc
+
+    except AIProviderError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=(
+                "The AI tutor is temporarily unavailable. "
+                "Please try again."
+            ),
+        ) from exc
+
+    except Exception as exc:
+        print(
+            f"Unexpected study notes error: "
+            f"{type(exc).__name__}: {exc}"
+        )
+        raise HTTPException(
+            status_code=500,
+            detail="An unexpected server error occurred.",
+        ) from exc
 
 
-# Request model for the AI tutor
+# ============================================================
+# AI TUTOR
+# ============================================================
+
 class TutorRequest(BaseModel):
     question: str = Field(min_length=1, max_length=2000)
 
 
-# AI Tutor endpoint powered by Gemma
 @app.post("/tutor/ask")
 def ask_tutor(request: TutorRequest):
+
     prompt = f"""
 You are StudyBuddy AI, a friendly and patient study tutor.
 
-Answer the student's question clearly and accurately.
-Use beginner-friendly language and examples where helpful.
-Organize longer answers with headings and bullet points.
+Explain the answer in simple, beginner-friendly language.
+Be concise and focus on the most important points.
+Use a short Python code example when helpful.
+Avoid unnecessary introductions and repetition.
 
 Student's question:
 {request.question}
@@ -78,17 +151,27 @@ Student's question:
     except AIProviderTimeoutError as exc:
         raise HTTPException(
             status_code=504,
-            detail="The AI tutor took too long to respond. Please try again.",
+            detail=(
+                "The AI tutor took too long to respond. "
+                "Please try again."
+            ),
         ) from exc
 
     except AIProviderError as exc:
         raise HTTPException(
             status_code=502,
-            detail="The AI tutor is temporarily unavailable. Please try again.",
+            detail=(
+                "The AI tutor is temporarily unavailable. "
+                "Please try again."
+            ),
         ) from exc
 
-    except RuntimeError as exc:
+    except Exception as exc:
+        print(
+            f"Unexpected tutor endpoint error: "
+            f"{type(exc).__name__}: {exc}"
+        )
         raise HTTPException(
-            status_code=503,
-            detail="The AI tutor is not configured correctly.",
+            status_code=500,
+            detail="An unexpected server error occurred.",
         ) from exc
