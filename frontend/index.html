@@ -1,879 +1,2085 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
 
     <title>StudyBuddy AI</title>
 
+
+
     <style>
-        * {
+
+        \* {
+
             box-sizing: border-box;
+
         }
+
+
 
         body {
+
             margin: 0;
+
             font-family: Arial, sans-serif;
+
             background: #f4f7fb;
+
             color: #1e293b;
+
         }
+
+
 
         header {
+
             background: #ffffff;
+
             padding: 20px 8%;
+
             border-bottom: 1px solid #e2e8f0;
+
         }
+
+
 
         header h2 {
+
             margin: 0;
+
             color: #4f46e5;
+
         }
+
+
 
         main {
+
             max-width: 850px;
+
             margin: 60px auto;
+
             padding: 0 20px;
+
         }
+
+
 
         .intro {
+
             text-align: center;
+
             margin-bottom: 35px;
+
         }
+
+
 
         .intro h1 {
+
             font-size: 36px;
+
             margin-bottom: 10px;
+
         }
+
+
 
         .intro p {
+
             color: #64748b;
+
             line-height: 1.6;
+
         }
+
+
 
         .feature-box {
+
             background: white;
+
             padding: 25px;
+
             border-radius: 16px;
+
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+
             margin-bottom: 25px;
+
         }
+
+
 
         .feature-title {
+
             margin-top: 0;
+
             color: #312e81;
+
         }
+
+
 
         label {
+
             display: block;
+
             margin-bottom: 10px;
+
             font-weight: bold;
+
         }
+
+
 
         textarea,
+
         input,
+
         select {
+
             width: 100%;
+
             padding: 15px;
+
             border: 1px solid #cbd5e1;
+
             border-radius: 10px;
+
             font-size: 16px;
+
             font-family: inherit;
+
         }
+
+
 
         textarea {
+
             min-height: 140px;
+
             resize: vertical;
+
         }
+
+
 
         textarea:focus,
+
         input:focus,
+
         select:focus {
+
             outline: 2px solid #a5b4fc;
+
             border-color: #4f46e5;
+
         }
+
+
 
         button {
+
             width: 100%;
+
             margin-top: 15px;
+
             padding: 14px;
+
             border: none;
+
             border-radius: 10px;
+
             background: #4f46e5;
+
             color: white;
+
             font-size: 16px;
+
             font-weight: bold;
+
             cursor: pointer;
+
             transition: background 0.2s;
+
         }
+
+
 
         button:hover:not(:disabled) {
+
             background: #4338ca;
+
         }
+
+
 
         button:disabled {
+
             opacity: 0.7;
+
             cursor: wait;
+
         }
+
+
 
         .loading {
+
             display: none;
+
             align-items: center;
+
             justify-content: center;
+
             gap: 12px;
+
             margin-top: 20px;
+
             padding: 16px;
+
             background: #eef2ff;
+
             border-radius: 10px;
+
             color: #4338ca;
+
             font-weight: bold;
+
         }
+
+
 
         .loading.visible {
+
             display: flex;
+
         }
+
+
 
         .spinner {
+
             width: 22px;
+
             height: 22px;
+
             border: 3px solid #c7d2fe;
+
             border-top-color: #4f46e5;
+
             border-radius: 50%;
+
             animation: spin 0.8s linear infinite;
+
             flex-shrink: 0;
+
         }
+
+
 
         @keyframes spin {
+
             to {
+
                 transform: rotate(360deg);
+
             }
+
         }
+
+
 
         .result {
+
             margin-top: 25px;
+
             padding: 25px;
+
             background: #f8fafc;
+
             border-radius: 10px;
+
             line-height: 1.7;
+
             display: none;
+
             overflow-wrap: anywhere;
+
         }
+
+
 
         .result.visible {
+
             display: block;
+
         }
+
+
 
         .result.error {
+
             color: #b91c1c;
+
             background: #fef2f2;
+
         }
+
+
 
         .result h1,
+
         .result h2,
+
         .result h3 {
+
             color: #312e81;
+
             margin-top: 24px;
+
         }
+
+
 
         .result h1:first-child,
+
         .result h2:first-child,
+
         .result h3:first-child {
+
             margin-top: 0;
+
         }
+
+
 
         .result ul,
+
         .result ol {
+
             padding-left: 25px;
+
         }
+
+
 
         .result li {
+
             margin-bottom: 8px;
+
         }
+
+
 
         .result code {
+
             background: #e2e8f0;
+
             padding: 2px 6px;
+
             border-radius: 5px;
+
             font-family: Consolas, monospace;
+
         }
+
+
 
         .result pre {
+
             background: #1e293b;
+
             color: #f8fafc;
+
             padding: 18px;
+
             border-radius: 10px;
+
             overflow-x: auto;
+
             line-height: 1.5;
+
         }
+
+
 
         .result pre code {
+
             background: transparent;
+
             padding: 0;
+
             color: inherit;
+
         }
+
+
 
         .result strong {
+
             color: #1e293b;
+
         }
+
+
 
         .difficulty-label {
+
             margin-top: 18px;
+
         }
+
+
 
         footer {
+
             text-align: center;
+
             padding: 25px;
+
             color: #64748b;
+
             font-size: 14px;
+
         }
 
-        @media (max-width: 600px) {
+
+
+    
+    .document-status {
+        margin-top: 15px;
+        padding: 12px 15px;
+        border-radius: 10px;
+        background: #f1f5f9;
+        color: #475569;
+        display: none;
+        line-height: 1.5;
+    }
+
+    .document-status.visible {
+        display: block;
+    }
+
+    .document-status.success {
+        background: #ecfdf5;
+        color: #047857;
+    }
+
+    .document-status.error {
+        background: #fef2f2;
+        color: #b91c1c;
+    }
+
+    .document-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .document-actions button {
+        margin-top: 0;
+    }
+
+    .secondary-button {
+        background: #64748b;
+    }
+
+    .secondary-button:hover:not(:disabled) {
+        background: #475569;
+    }
+
+    .source-list {
+        margin-top: 20px;
+        padding: 15px;
+        background: #eef2ff;
+        border-radius: 10px;
+        font-size: 14px;
+    }
+
+    .source-list strong {
+        color: #312e81;
+    }
+
+    .source-item {
+        margin-top: 6px;
+    }
+
+    @media (max-width: 600px) {
+
             main {
+
                 margin: 35px auto;
+
             }
+
+
 
             .intro h1 {
+
                 font-size: 28px;
+
             }
 
+
+
             .feature-box {
+
                 padding: 18px;
+
             }
+
         }
+
     </style>
+
 </head>
+
+
 
 <body>
 
+
+
 <header>
+
     <h2>StudyBuddy AI</h2>
+
 </header>
+
+
 
 <main>
 
+
+
     <section class="intro">
+
         <h1>Your personal AI study companion 📚</h1>
 
+
+
         <p>
+
             Ask questions, create study notes,
+
             understand difficult concepts, and learn one step at a time.
+
         </p>
+
+    </section>
+
+
+
+
+
+
+    <!-- =====================================================
+
+         DOCUMENT UPLOAD / RAG
+
+         ===================================================== -->
+
+    <section class="feature-box">
+
+        <h2 class="feature-title">📄 Study From Your PDF</h2>
+
+        <p>
+            Upload a text-based PDF and ask StudyBuddy questions
+            using your study material.
+        </p>
+
+        <label for="documentFile">
+            Choose a PDF
+        </label>
+
+        <input
+            id="documentFile"
+            type="file"
+            accept="application/pdf"
+        >
+
+        <button id="uploadButton" type="button">
+            Upload PDF
+        </button>
+
+        <div
+            id="documentLoading"
+            class="loading"
+            role="status"
+            aria-live="polite"
+        >
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Uploading and preparing your PDF...</span>
+        </div>
+
+        <div
+            id="documentStatus"
+            class="document-status"
+            aria-live="polite"
+        ></div>
+
+        <div class="document-actions">
+            <button
+                id="removeDocumentButton"
+                type="button"
+                class="secondary-button"
+                style="display: none;"
+            >
+                Remove PDF
+            </button>
+        </div>
+
     </section>
 
 
     <!-- =====================================================
+
          AI TUTOR
+
          ===================================================== -->
 
+
+
     <section class="feature-box">
+
+
 
         <h2 class="feature-title">🤖 Ask StudyBuddy</h2>
 
+
+
         <form id="tutorForm">
 
+
+
             <label for="question">
+
                 What would you like to learn?
+
             </label>
 
+
+
             <textarea
+
                 id="question"
+
                 placeholder="Example: Explain Python classes and objects with an example..."
+
                 required
+
                 maxlength="2000"
+
             ></textarea>
 
+
+
             <button id="askButton" type="submit">
+
                 Ask StudyBuddy
+
             </button>
+
+
 
         </form>
 
+
+
         <div
+
             id="tutorLoading"
+
             class="loading"
+
             role="status"
+
             aria-live="polite"
+
         >
+
             <span class="spinner" aria-hidden="true"></span>
 
+
+
             <span>
+
                 StudyBuddy is thinking... This may take a few seconds.
+
             </span>
+
         </div>
 
+
+
         <div
+
             id="tutorResult"
+
             class="result"
+
             aria-live="polite"
+
         ></div>
 
+
+
     </section>
+
+
+
 
 
     <!-- =====================================================
+
          STUDY NOTES
+
          ===================================================== -->
+
+
 
     <section class="feature-box">
 
+
+
         <h2 class="feature-title">📝 Generate Study Notes</h2>
+
+
 
         <form id="notesForm">
 
+
+
             <label for="topic">
+
                 What topic should I make notes about?
+
             </label>
+
+
 
             <input
+
                 id="topic"
+
                 type="text"
+
                 placeholder="Example: Python OOP"
+
                 required
+
                 maxlength="200"
+
             >
 
+
+
             <label
+
                 for="difficulty"
+
                 class="difficulty-label"
+
             >
+
                 Difficulty level
+
             </label>
+
+
 
             <select id="difficulty">
 
+
+
                 <option value="beginner">
+
                     Beginner
+
                 </option>
+
+
 
                 <option value="intermediate">
+
                     Intermediate
+
                 </option>
 
+
+
                 <option value="advanced">
+
                     Advanced
+
                 </option>
+
+
 
             </select>
 
+
+
             <button
+
                 id="notesButton"
+
                 type="submit"
+
             >
+
                 Generate Study Notes
+
             </button>
+
+
 
         </form>
 
+
+
         <div
+
             id="notesLoading"
+
             class="loading"
+
             role="status"
+
             aria-live="polite"
+
         >
+
             <span class="spinner" aria-hidden="true"></span>
 
+
+
             <span>
+
                 Creating your study notes...
+
             </span>
+
         </div>
 
+
+
         <div
+
             id="notesResult"
+
             class="result"
+
             aria-live="polite"
+
         ></div>
 
+
+
     </section>
+
+
 
 </main>
 
 
+
+
+
 <footer>
+
     StudyBuddy AI · Learn something new every day
+
 </footer>
+
+
+
 
 
 <script>
 
+
+
     // ========================================================
+
     // MARKDOWN → HTML FORMATTER
+
     // ========================================================
+
+
 
     function escapeHtml(text) {
 
+
+
         return text
+
             .replace(/&/g, "&amp;")
+
             .replace(/</g, "&lt;")
+
             .replace(/>/g, "&gt;")
+
             .replace(/"/g, "&quot;")
+
             .replace(/'/g, "&#039;");
+
     }
+
+
+
 
 
     function formatAIResponse(text) {
 
+
+
         const lines = text.split("\n");
 
+
+
         let html = "";
+
         let inCodeBlock = false;
+
         let codeContent = "";
+
+
 
         for (let line of lines) {
 
+
+
             // Code block start/end
-            if (line.trim().startsWith("```")) {
+
+            if (line.trim().startsWith("\`\`\`")) {
+
+
 
                 if (!inCodeBlock) {
 
+
+
                     inCodeBlock = true;
+
                     codeContent = "";
+
+
 
                 } else {
 
+
+
                     html += "<pre><code>"
+
                         + escapeHtml(codeContent.trim())
+
                         + "</code></pre>";
 
+
+
                     inCodeBlock = false;
+
                     codeContent = "";
+
                 }
 
+
+
                 continue;
+
             }
+
+
 
             if (inCodeBlock) {
 
+
+
                 codeContent += line + "\n";
+
                 continue;
+
             }
+
+
+
 
 
             // Empty line
+
             if (line.trim() === "") {
 
+
+
                 html += "<br>";
+
                 continue;
+
             }
+
+
+
 
 
             // Headings
+
             if (line.startsWith("### ")) {
 
+
+
                 html += "<h3>"
+
                     + formatInline(line.substring(4))
+
                     + "</h3>";
 
+
+
                 continue;
+
             }
+
+
 
             if (line.startsWith("## ")) {
 
+
+
                 html += "<h2>"
+
                     + formatInline(line.substring(3))
+
                     + "</h2>";
 
+
+
                 continue;
+
             }
+
+
 
             if (line.startsWith("# ")) {
 
+
+
                 html += "<h1>"
+
                     + formatInline(line.substring(2))
+
                     + "</h1>";
 
+
+
                 continue;
+
             }
+
+
+
 
 
             // Bullet points
+
             if (
-                line.trim().startsWith("* ") ||
+
+                line.trim().startsWith("\* ") ||
+
                 line.trim().startsWith("- ")
+
             ) {
 
+
+
                 html += "<ul><li>"
+
                     + formatInline(
+
                         line.trim().substring(2)
+
                     )
+
                     + "</li></ul>";
 
+
+
                 continue;
+
             }
+
+
+
 
 
             // Numbered list
-            if (/^\s*\d+\.\s/.test(line)) {
+
+            if (/^\s\*\d+\\.\s/.test(line)) {
+
+
 
                 const content = line
-                    .replace(/^\s*\d+\.\s/, "");
+
+                    .replace(/^\s\*\d+\\.\s/, "");
+
+
 
                 html += "<ol><li>"
+
                     + formatInline(content)
+
                     + "</li></ol>";
 
+
+
                 continue;
+
             }
 
 
+
+
+
             // Normal paragraph
+
             html += "<p>"
+
                 + formatInline(line)
+
                 + "</p>";
+
         }
+
+
+
 
 
         // Handle unfinished code block
+
         if (inCodeBlock && codeContent) {
 
+
+
             html += "<pre><code>"
+
                 + escapeHtml(codeContent.trim())
+
                 + "</code></pre>";
+
         }
 
 
+
+
+
         return html;
+
     }
+
+
+
 
 
     function formatInline(text) {
 
+
+
         let formatted = escapeHtml(text);
 
+
+
         // Bold
+
         formatted = formatted.replace(
-            /\*\*(.*?)\*\*/g,
+
+            /\\\*\\\*(.\*?)\\\*\\\*/g,
+
             "<strong>$1</strong>"
+
         );
+
+
 
         // Inline code
+
         formatted = formatted.replace(
-            /`([^`]+)`/g,
+
+            /\`([^\`]+)\`/g,
+
             "<code>$1</code>"
+
         );
 
+
+
         return formatted;
+
     }
 
 
+
+
+
+
     // ========================================================
+
+    // DOCUMENT UPLOAD / RAG
+
+    // ========================================================
+
+    const documentFile =
+        document.getElementById("documentFile");
+
+    const uploadButton =
+        document.getElementById("uploadButton");
+
+    const documentLoading =
+        document.getElementById("documentLoading");
+
+    const documentStatus =
+        document.getElementById("documentStatus");
+
+    const removeDocumentButton =
+        document.getElementById("removeDocumentButton");
+
+    let activeDocumentId = null;
+    let documentLoadingState = false;
+
+
+    uploadButton.addEventListener(
+        "click",
+        async function () {
+
+            if (documentLoadingState) {
+                return;
+            }
+
+            const file = documentFile.files[0];
+
+            if (!file) {
+                documentStatus.textContent =
+                    "Please choose a PDF file first.";
+
+                documentStatus.className =
+                    "document-status visible error";
+
+                return;
+            }
+
+            if (file.type !== "application/pdf") {
+                documentStatus.textContent =
+                    "Only PDF files are supported.";
+
+                documentStatus.className =
+                    "document-status visible error";
+
+                return;
+            }
+
+            documentLoadingState = true;
+
+            uploadButton.disabled = true;
+            uploadButton.textContent = "Uploading...";
+
+            documentLoading.classList.add("visible");
+
+            documentStatus.className =
+                "document-status";
+
+            documentStatus.textContent = "";
+
+            try {
+
+                const formData = new FormData();
+
+                formData.append("file", file);
+
+                const response = await fetch(
+                    "http://127.0.0.1:8000/documents",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+                let data;
+
+                try {
+                    data = await response.json();
+                } catch {
+                    throw new Error(
+                        "The server returned an invalid response."
+                    );
+                }
+
+                if (!response.ok) {
+                    throw new Error(
+                        typeof data.detail === "string"
+                            ? data.detail
+                            : "PDF upload failed. Please try again."
+                    );
+                }
+
+                if (!data.document_id) {
+                    throw new Error(
+                        "The server did not return a document ID."
+                    );
+                }
+
+                activeDocumentId = data.document_id;
+
+                documentStatus.textContent =
+                    "✅ PDF ready: " +
+                    data.filename +
+                    " · " +
+                    data.pages +
+                    " pages · " +
+                    data.chunk_count +
+                    " chunks. " +
+                    "Your questions will now use this document.";
+
+                documentStatus.className =
+                    "document-status visible success";
+
+                removeDocumentButton.style.display =
+                    "block";
+
+            } catch (error) {
+
+                console.error(
+                    "Document upload failed:",
+                    error
+                );
+
+                activeDocumentId = null;
+
+                documentStatus.textContent =
+                    error.message;
+
+                documentStatus.className =
+                    "document-status visible error";
+
+                removeDocumentButton.style.display =
+                    "none";
+
+            } finally {
+
+                documentLoadingState = false;
+
+                uploadButton.disabled = false;
+                uploadButton.textContent = "Upload PDF";
+
+                documentLoading.classList.remove(
+                    "visible"
+                );
+            }
+        }
+    );
+
+
+    removeDocumentButton.addEventListener(
+        "click",
+        function () {
+
+            activeDocumentId = null;
+
+            documentFile.value = "";
+
+            documentStatus.textContent =
+                "PDF removed. StudyBuddy is back to normal tutor mode.";
+
+            documentStatus.className =
+                "document-status visible";
+
+            removeDocumentButton.style.display =
+                "none";
+        }
+    );
+
+
+    // ========================================================
+
     // TUTOR
+
     // ========================================================
+
+
 
     const tutorForm =
+
         document.getElementById("tutorForm");
 
+
+
     const questionInput =
+
         document.getElementById("question");
 
+
+
     const askButton =
+
         document.getElementById("askButton");
 
+
+
     const tutorLoading =
+
         document.getElementById("tutorLoading");
 
+
+
     const tutorResult =
+
         document.getElementById("tutorResult");
+
+
+
 
 
     let tutorLoadingState = false;
 
 
+
+
+
     tutorForm.addEventListener(
+
         "submit",
+
         async function (event) {
+
+
 
             event.preventDefault();
 
+
+
             if (tutorLoadingState) {
+
                 return;
+
             }
+
+
 
             const question =
+
                 questionInput.value.trim();
 
+
+
             if (!question) {
+
                 questionInput.focus();
+
                 return;
+
             }
+
+
+
 
 
             tutorLoadingState = true;
 
+
+
             askButton.disabled = true;
 
+
+
             askButton.textContent =
+
                 "Generating answer...";
+
+
 
             tutorLoading.classList.add("visible");
 
+
+
             tutorResult.classList.remove(
+
                 "visible",
+
                 "error"
+
             );
+
+
 
             tutorResult.innerHTML = "";
 
 
+
+
+
             try {
 
+
+
+                const endpoint = activeDocumentId
+                    ? "http://127.0.0.1:8000/documents/ask"
+                    : "http://127.0.0.1:8000/tutor/ask";
+
+                const requestBody = activeDocumentId
+                    ? {
+                        document_id: activeDocumentId,
+                        question: question
+                    }
+                    : {
+                        question: question
+                    };
+
                 const response = await fetch(
-                    "http://127.0.0.1:8000/tutor/ask",
+                    endpoint,
                     {
                         method: "POST",
-
                         headers: {
                             "Content-Type":
                                 "application/json"
                         },
-
-                        body: JSON.stringify({
-                            question: question
-                        })
+                        body: JSON.stringify(requestBody)
                     }
                 );
 
 
+
+
+
                 let data;
+
+
 
                 try {
 
+
+
                     data = await response.json();
+
+
 
                 } catch {
 
+
+
                     throw new Error(
+
                         "The server returned an invalid response."
+
                     );
+
                 }
+
+
+
 
 
                 if (!response.ok) {
 
+
+
                     throw new Error(
+
                         typeof data.detail === "string"
+
                             ? data.detail
+
                             : "The request failed. Please try again."
+
                     );
+
                 }
+
+
+
 
 
                 if (
+
                     typeof data.answer !== "string" ||
+
                     !data.answer.trim()
+
                 ) {
 
+
+
                     throw new Error(
+
                         "StudyBuddy returned an empty answer."
+
                     );
+
                 }
 
 
-                tutorResult.innerHTML =
+
+
+
+                let resultHtml =
                     formatAIResponse(data.answer);
+
+                const answerText =
+                    String(data.answer || "").toLowerCase();
+
+                const documentAnswerNotFound =
+                    answerText.includes(
+                        "not found in the uploaded document"
+                    ) ||
+                    answerText.includes(
+                        "could not be found in the uploaded document"
+                    );
+
+                if (
+                    activeDocumentId &&
+                    !documentAnswerNotFound &&
+                    Array.isArray(data.sources) &&
+                    data.sources.length > 0
+                ) {
+                    resultHtml +=
+                        '<div class="source-list">' +
+                        '<strong>📚 Sources</strong>';
+
+                    for (const source of data.sources) {
+                        const page = escapeHtml(
+                            String(source.page)
+                        );
+
+                        const chunk = escapeHtml(
+                            String(source.chunk_id)
+                        );
+
+                        resultHtml +=
+                            '<div class="source-item">' +
+                            'Page ' + page +
+                            ' · Chunk ' + chunk +
+                            '</div>';
+                    }
+
+                    resultHtml += '</div>';
+                }
+
+                tutorResult.innerHTML = resultHtml;
 
                 tutorResult.classList.add(
                     "visible"
                 );
+
+
+
 
 
             } catch (error) {
 
+
+
                 console.error(
+
                     "Tutor request failed:",
+
                     error
+
                 );
+
+
 
                 tutorResult.textContent =
+
                     error.message;
 
+
+
                 tutorResult.classList.add(
+
                     "visible",
+
                     "error"
+
                 );
+
+
+
 
 
             } finally {
 
+
+
                 tutorLoadingState = false;
+
+
 
                 askButton.disabled = false;
 
+
+
                 askButton.textContent =
+
                     "Ask StudyBuddy";
 
+
+
                 tutorLoading.classList.remove(
+
                     "visible"
+
                 );
+
             }
+
         }
+
     );
 
 
+
+
+
     // ========================================================
+
     // STUDY NOTES
+
     // ========================================================
+
+
 
     const notesForm =
+
         document.getElementById("notesForm");
 
+
+
     const topicInput =
+
         document.getElementById("topic");
 
+
+
     const difficultyInput =
+
         document.getElementById("difficulty");
 
+
+
     const notesButton =
+
         document.getElementById("notesButton");
 
+
+
     const notesLoading =
+
         document.getElementById("notesLoading");
 
+
+
     const notesResult =
+
         document.getElementById("notesResult");
+
+
+
 
 
     let notesLoadingState = false;
 
 
+
+
+
     notesForm.addEventListener(
+
         "submit",
+
         async function (event) {
+
+
 
             event.preventDefault();
 
+
+
             if (notesLoadingState) {
+
                 return;
+
             }
 
 
+
+
+
             const topic =
+
                 topicInput.value.trim();
 
+
+
             const difficulty =
+
                 difficultyInput.value;
+
+
+
 
 
             if (!topic) {
 
+
+
                 topicInput.focus();
+
                 return;
+
             }
+
+
+
 
 
             notesLoadingState = true;
 
+
+
             notesButton.disabled = true;
 
+
+
             notesButton.textContent =
+
                 "Generating notes...";
 
+
+
             notesLoading.classList.add(
+
                 "visible"
+
             );
 
+
+
             notesResult.classList.remove(
+
                 "visible",
+
                 "error"
+
             );
+
+
 
             notesResult.innerHTML = "";
 
 
+
+
+
             try {
 
+
+
                 const response = await fetch(
+
                     "http://127.0.0.1:8000/study-notes",
+
                     {
+
                         method: "POST",
 
+
+
                         headers: {
+
                             "Content-Type":
+
                                 "application/json"
+
                         },
 
+
+
                         body: JSON.stringify({
+
                             topic: topic,
+
                             difficulty: difficulty
+
                         })
+
                     }
+
                 );
+
+
+
 
 
                 let data;
 
+
+
                 try {
+
+
 
                     data = await response.json();
 
+
+
                 } catch {
 
+
+
                     throw new Error(
+
                         "The server returned an invalid response."
+
                     );
+
                 }
+
+
+
 
 
                 if (!response.ok) {
 
+
+
                     throw new Error(
+
                         typeof data.detail === "string"
+
                             ? data.detail
+
                             : "Could not generate study notes."
+
                     );
+
                 }
+
+
+
 
 
                 if (
+
                     typeof data.notes !== "string" ||
+
                     !data.notes.trim()
+
                 ) {
 
+
+
                     throw new Error(
+
                         "StudyBuddy returned empty study notes."
+
                     );
+
                 }
 
 
+
+
+
                 notesResult.innerHTML =
+
                     formatAIResponse(data.notes);
 
+
+
                 notesResult.classList.add(
+
                     "visible"
+
                 );
+
+
+
 
 
             } catch (error) {
 
+
+
                 console.error(
+
                     "Study notes request failed:",
+
                     error
+
                 );
+
+
 
                 notesResult.textContent =
+
                     error.message;
 
+
+
                 notesResult.classList.add(
+
                     "visible",
+
                     "error"
+
                 );
+
+
+
 
 
             } finally {
 
+
+
                 notesLoadingState = false;
+
+
 
                 notesButton.disabled = false;
 
+
+
                 notesButton.textContent =
+
                     "Generate Study Notes";
 
+
+
                 notesLoading.classList.remove(
+
                     "visible"
+
                 );
+
             }
+
         }
+
     );
+
+
 
 </script>
 
+
+
 </body>
+
 </html>

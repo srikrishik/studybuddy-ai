@@ -15,3 +15,6 @@ venv/
 # Local development files
 .DS_Store
 Thumbs.db
+
+# Uploaded documents
+backend/uploads/
