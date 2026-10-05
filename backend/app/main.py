@@ -1,8 +1,14 @@
 from uuid import uuid4
 
+from app.services.progress_repository import (
+    get_learning_progress,
+)
 
-
-
+from app.services.flashcard_repository import (
+    save_flashcards,
+    get_flashcards,
+    update_flashcard_revision,
+)
 
 
 
@@ -65,9 +71,16 @@ from app.services.database import (
 )
 
 
+from app.services.quiz_repository import (
+    save_quiz,
+    get_quiz,
+    save_quiz_attempt as save_mongodb_quiz_attempt,
+    get_quiz_attempts as get_mongodb_quiz_attempts,
+)
 
-
-
+from app.services.document_repository import (
+    save_document,
+)
 
 
 from app.services.pdf_service import extract_pdf_text
@@ -261,10 +274,7 @@ def home():
 
 @app.get("/health")
 
-
-
 def health_check():
-
 
 
     return {
@@ -282,7 +292,13 @@ def health_check():
     }
 
 
+@app.get("/progress")
+def get_progress():
+    """
+    Return the student's learning progress.
+    """
 
+    return get_learning_progress()
 
 
 
@@ -556,6 +572,16 @@ async def upload_document(file: UploadFile = File(...)):
 
 
     }
+
+    save_document(
+        document_id=document_id,
+        filename=file.filename,
+        size=len(file_bytes),
+        pages=len(pages),
+        characters=total_characters,
+        chunk_count=len(chunks),
+        status="uploaded",
+    )
 
 
 
@@ -1135,7 +1161,13 @@ def generate_quiz_endpoint(request: QuizRequest):
 
         }
 
-
+        save_quiz(
+            quiz_id=quiz_id,
+            document_id=request.document_id,
+            filename=document["filename"],
+            topic=topic,
+            quiz=quiz,
+        )
 
         return {
 
@@ -1839,7 +1871,15 @@ def submit_quiz(
 
         )
 
-
+        save_mongodb_quiz_attempt(
+            attempt_id=attempt_id,
+            quiz_id=quiz_id,
+            document_id=quiz_data["document_id"],
+            filename=quiz_data["filename"],
+            topic=quiz_data["topic"],
+            total_questions=total_questions,
+            correct_answers=correct_answers,
+        )
 
         return {
 
@@ -1915,7 +1955,7 @@ def get_quiz_attempts_endpoint():
 
     try:
 
-        attempts = get_quiz_attempts()
+        attempts = get_mongodb_quiz_attempts()
 
 
 
@@ -2001,7 +2041,19 @@ def generate_flashcards_endpoint(request: FlashcardRequest):
             number_of_cards=request.number_of_cards,
         )
 
+        # Create a unique ID for this flashcard set.
+        flashcard_set_id = str(uuid4())
+
+        # Save the generated flashcards to MongoDB.
+        save_flashcards(
+            flashcard_set_id=flashcard_set_id,
+            document_id=request.document_id,
+            topic=topic,
+            flashcards=flashcards,
+        )
+
         return {
+            "flashcard_set_id": flashcard_set_id,
             "document_id": request.document_id,
             "filename": document["filename"],
             "topic": topic,
@@ -2039,6 +2091,77 @@ def generate_flashcards_endpoint(request: FlashcardRequest):
             detail="Could not generate flashcards.",
         ) from exc
 
+@app.get("/flashcards/{flashcard_set_id}")
+def get_flashcard_set(flashcard_set_id: str):
+
+    flashcard_set = get_flashcards(
+        flashcard_set_id
+    )
+
+    if flashcard_set is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Flashcard set not found.",
+        )
+
+    return {
+        "status": "success",
+        "flashcard_set": flashcard_set,
+    }
+
+class FlashcardRevisionRequest(BaseModel):
+    card_index: int = Field(
+        ge=0,
+    )
+
+    marked_for_revision: bool
+
+
+@app.patch("/flashcards/{flashcard_set_id}/revision")
+def update_flashcard_revision_endpoint(
+    flashcard_set_id: str,
+    request: FlashcardRevisionRequest,
+):
+
+    try:
+        updated = update_flashcard_revision(
+            flashcard_set_id=flashcard_set_id,
+            card_index=request.card_index,
+            marked_for_revision=request.marked_for_revision,
+        )
+
+        if not updated:
+            raise HTTPException(
+                status_code=404,
+                detail="Flashcard set or card not found.",
+            )
+
+        return {
+            "status": "success",
+            "flashcard_set_id": flashcard_set_id,
+            "card_index": request.card_index,
+            "marked_for_revision": request.marked_for_revision,
+        }
+
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=400,
+            detail=str(exc),
+        ) from exc
+
+    except HTTPException:
+        raise
+
+    except Exception as exc:
+        print(
+            f"Unexpected flashcard revision error: "
+            f"{type(exc).__name__}: {exc}"
+        )
+
+        raise HTTPException(
+            status_code=500,
+            detail="Could not update flashcard revision status.",
+        ) from exc
 
 # STUDY NOTES
 

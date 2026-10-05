@@ -1492,6 +1492,119 @@
 
 
 
+
+
+    /* ========================================================
+       PROGRESS DASHBOARD
+       ======================================================== */
+
+    .progress-dashboard {
+        margin-bottom: 35px;
+    }
+
+    .progress-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .progress-card {
+        padding: 20px;
+        background: #eef2ff;
+        border-radius: 12px;
+        text-align: center;
+    }
+
+    .progress-card h3 {
+        margin: 0 0 8px;
+        color: #312e81;
+        font-size: 15px;
+    }
+
+    .progress-value {
+        font-size: 30px;
+        font-weight: bold;
+        color: #4f46e5;
+    }
+
+    .progress-topics {
+        margin-top: 20px;
+    }
+
+    .progress-topic {
+        padding: 15px;
+        margin-top: 10px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+    }
+
+    .progress-topic-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .progress-topic-name {
+        font-weight: bold;
+        color: #312e81;
+    }
+
+    .progress-topic-score {
+        font-weight: bold;
+        color: #047857;
+    }
+
+    .progress-topic-details {
+        margin-top: 6px;
+        color: #64748b;
+        font-size: 14px;
+    }
+
+
+    .progress-summary { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; margin-top:20px; }
+    .progress-section { margin-top:25px; }
+    .progress-section h3 { color:#312e81; margin-bottom:10px; }
+    .practice-list, .recent-attempts { display:grid; gap:10px; }
+    .practice-item, .recent-attempt { padding:12px 15px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; }
+    .practice-item { border-left:4px solid #dc2626; }
+    .practice-item-header, .recent-attempt-header { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+    .practice-score, .recent-attempt-score { font-weight:bold; }
+    .recent-attempt-score { color:#047857; }
+    .progress-empty { padding:12px 15px; background:#f8fafc; border-radius:10px; color:#64748b; }
+    @media (max-width:800px) { .progress-summary { grid-template-columns:1fr; } }
+
+    .progress-status {
+        margin-top: 15px;
+        padding: 12px 15px;
+        border-radius: 10px;
+        background: #f1f5f9;
+        color: #475569;
+        display: none;
+    }
+
+    .progress-status.visible {
+        display: block;
+    }
+
+    .progress-status.error {
+        background: #fef2f2;
+        color: #b91c1c;
+    }
+
+    @media (max-width: 600px) {
+        .progress-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .progress-topic-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
     </style>
 
 
@@ -1580,6 +1693,39 @@
 
 
 
+
+
+
+    <!-- =====================================================
+         PROGRESS DASHBOARD
+         ===================================================== -->
+
+    <section class="feature-box progress-dashboard">
+        <h2 class="feature-title">📈 My Learning Progress</h2>
+        <p>Track your quiz performance and see which topics need more practice.</p>
+        <div id="progressStatus" class="progress-status" role="status" aria-live="polite"></div>
+
+        <div class="progress-summary">
+            <div class="progress-card"><h3>Total Quiz Attempts</h3><div id="totalAttempts" class="progress-value">—</div></div>
+            <div class="progress-card"><h3>Average Score</h3><div id="averageScore" class="progress-value">—</div></div>
+            <div class="progress-card"><h3>Latest Score</h3><div id="latestScore" class="progress-value">—</div></div>
+        </div>
+
+        <div class="progress-section">
+            <h3>⚠️ Topics Needing More Practice</h3>
+            <div id="practiceTopics" class="practice-list"><div class="progress-empty">No progress data loaded yet.</div></div>
+        </div>
+
+        <div class="progress-section">
+            <h3>🕒 Recent Quiz Attempts</h3>
+            <div id="recentAttempts" class="recent-attempts"><div class="progress-empty">No recent attempts yet.</div></div>
+        </div>
+
+        <div class="progress-section">
+            <h3>📚 Topic Progress</h3>
+            <div id="progressTopics"><div class="progress-empty">No progress data loaded yet.</div></div>
+        </div>
+    </section>
 
     <!-- =====================================================
 
@@ -5463,6 +5609,13 @@
     let flashcardLoadingState = false;
     let currentFlashcards = [];
     let currentFlashcardIndex = 0;
+    let currentFlashcardSetId = null;
+
+    let savedFlashcardSetId =
+        localStorage.getItem(
+            "studybuddy_flashcard_set_id"
+        );
+
     let revisionCards = new Set();
     let flashcardAnswerVisible = false;
 
@@ -5546,8 +5699,21 @@
                 }
 
                 currentFlashcards = data.flashcards;
+                currentFlashcardSetId = data.flashcard_set_id;
+                localStorage.setItem(
+                    "studybuddy_flashcard_set_id",
+                    currentFlashcardSetId
+                );
                 currentFlashcardIndex = 0;
+
                 revisionCards = new Set();
+
+                currentFlashcards.forEach(function (card, index) {
+                    if (card.marked_for_revision === true) {
+                        revisionCards.add(index);
+                    }
+                });
+
                 flashcardAnswerVisible = false;
 
                 renderFlashcard();
@@ -5705,35 +5871,92 @@
             .getElementById("revisionFlashcardButton")
             .addEventListener(
                 "click",
-                function () {
+                async function () {
 
-                    if (
-                        revisionCards.has(
-                            currentFlashcardIndex
-                        )
-                    ) {
-                        revisionCards.delete(
-                            currentFlashcardIndex
-                        );
+                    if (!currentFlashcardSetId) {
+                        return;
+                    }
 
-                        this.textContent =
-                            "☆ Mark for Revision";
-
-                        this.classList.remove(
-                            "marked"
-                        );
-
-                    } else {
-                        revisionCards.add(
+                    const newRevisionStatus =
+                        !revisionCards.has(
                             currentFlashcardIndex
                         );
 
-                        this.textContent =
-                            "✓ Marked for Revision";
+                    this.disabled = true;
 
-                        this.classList.add(
-                            "marked"
+                    try {
+                        const response = await fetch(
+                            "http://127.0.0.1:8000/flashcards/" +
+                            currentFlashcardSetId +
+                            "/revision",
+                            {
+                                method: "PATCH",
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+                                body: JSON.stringify({
+                                    card_index:
+                                        currentFlashcardIndex,
+                                    marked_for_revision:
+                                        newRevisionStatus
+                                })
+                            }
                         );
+
+                        let data;
+
+                        try {
+                            data = await response.json();
+                        } catch {
+                            throw new Error(
+                                "The server returned an invalid response."
+                            );
+                        }
+
+                        if (!response.ok) {
+                            throw new Error(
+                                typeof data.detail === "string"
+                                    ? data.detail
+                                    : "Could not update revision status."
+                            );
+                        }
+
+                        if (newRevisionStatus) {
+                            revisionCards.add(
+                                currentFlashcardIndex
+                            );
+
+                            this.textContent =
+                                "✓ Marked for Revision";
+
+                            this.classList.add(
+                                "marked"
+                            );
+
+                        } else {
+                            revisionCards.delete(
+                                currentFlashcardIndex
+                            );
+
+                            this.textContent =
+                                "☆ Mark for Revision";
+
+                            this.classList.remove(
+                                "marked"
+                            );
+                        }
+
+                    } catch (error) {
+                        console.error(
+                            "Revision update failed:",
+                            error
+                        );
+
+                        alert(error.message);
+
+                    } finally {
+                        this.disabled = false;
                     }
                 }
             );
@@ -5761,43 +5984,222 @@
 
     function renderFlashcardComplete() {
 
-        const markedCount =
-            revisionCards.size;
+    const markedCount =
+        revisionCards.size;
 
-        flashcardResult.className =
-            "result visible";
+    flashcardResult.className =
+        "result visible";
 
-        flashcardResult.innerHTML =
-            '<div class="flashcard-complete">' +
-            "<h2>Flashcards Complete! 🎉</h2>" +
-            "<p>You reviewed <strong>" +
-            currentFlashcards.length +
-            "</strong> flashcards.</p>" +
-            "<p>⭐ Marked for revision: <strong>" +
-            markedCount +
-            "</strong></p>" +
-            '<button type="button" id="restartFlashcardsButton">' +
-            "Review Again" +
-            "</button>" +
-            "</div>";
+    flashcardResult.innerHTML =
+        '<div class="flashcard-complete">' +
+        "<h2>Flashcards Complete! 🎉</h2>" +
+        "<p>You reviewed <strong>" +
+        currentFlashcards.length +
+        "</strong> flashcards.</p>" +
+        "<p>⭐ Marked for revision: <strong>" +
+        markedCount +
+        "</strong></p>" +
+        '<button type="button" id="restartFlashcardsButton">' +
+        "Review Again" +
+        "</button>" +
+        "</div>";
 
-        document
-            .getElementById("restartFlashcardsButton")
-            .addEventListener(
-                "click",
-                function () {
-                    currentFlashcardIndex = 0;
-                    renderFlashcard();
-                }
-            );
+    document
+        .getElementById("restartFlashcardsButton")
+        .addEventListener(
+            "click",
+            function () {
+                currentFlashcardIndex = 0;
+                renderFlashcard();
+            }
+        );
+}
+
+
+// ========================================================
+// LOAD SAVED FLASHCARDS
+// ========================================================
+
+async function loadSavedFlashcards() {
+
+    if (!savedFlashcardSetId) {
+        return;
     }
 
+    try {
 
-    // ========================================================
+        const response = await fetch(
+            "http://127.0.0.1:8000/flashcards/" +
+            savedFlashcardSetId
+        );
 
-    // QUIZ HISTORY
+        let data;
 
-    // ========================================================
+        try {
+            data = await response.json();
+        } catch {
+            throw new Error(
+                "The server returned an invalid response."
+            );
+        }
+
+        if (!response.ok) {
+
+            if (response.status === 404) {
+                localStorage.removeItem(
+                    "studybuddy_flashcard_set_id"
+                );
+                return;
+            }
+
+            throw new Error(
+                typeof data.detail === "string"
+                    ? data.detail
+                    : "Could not load saved flashcards."
+            );
+        }
+
+        const savedSet =
+            data.flashcard_set;
+
+        if (
+            !savedSet ||
+            !Array.isArray(savedSet.flashcards) ||
+            savedSet.flashcards.length === 0
+        ) {
+            return;
+        }
+
+        currentFlashcards =
+            savedSet.flashcards;
+
+        currentFlashcardSetId =
+            savedSet.flashcard_set_id;
+
+        currentFlashcardIndex = 0;
+
+        revisionCards = new Set();
+
+        currentFlashcards.forEach(
+            function (card, index) {
+
+                if (
+                    card.marked_for_revision === true
+                ) {
+                    revisionCards.add(index);
+                }
+            }
+        );
+
+        flashcardAnswerVisible = false;
+
+        renderFlashcard();
+
+    } catch (error) {
+
+        console.error(
+            "Loading saved flashcards failed:",
+            error
+        );
+    }
+}
+
+
+// ========================================================
+// PROGRESS DASHBOARD
+// ========================================================
+
+    const progressStatus = document.getElementById("progressStatus");
+    const totalAttempts = document.getElementById("totalAttempts");
+    const averageScore = document.getElementById("averageScore");
+    const latestScore = document.getElementById("latestScore");
+    const practiceTopics = document.getElementById("practiceTopics");
+    const recentAttempts = document.getElementById("recentAttempts");
+    const progressTopics = document.getElementById("progressTopics");
+
+    function formatProgressDate(dateText) {
+        if (!dateText) return "Unknown date";
+        const date = new Date(dateText);
+        return Number.isNaN(date.getTime()) ? dateText : date.toLocaleString();
+    }
+
+    async function loadProgress() {
+        progressStatus.className = "progress-status visible";
+        progressStatus.textContent = "Loading your progress...";
+        practiceTopics.innerHTML = "";
+        recentAttempts.innerHTML = "";
+        progressTopics.innerHTML = "";
+
+        try {
+            const [progressResponse, historyResponse] = await Promise.all([
+                fetch("http://127.0.0.1:8000/progress"),
+                fetch("http://127.0.0.1:8000/quizzes/attempts")
+            ]);
+            const progressData = await progressResponse.json();
+            const historyData = await historyResponse.json();
+
+            if (!progressResponse.ok) throw new Error(typeof progressData.detail === "string" ? progressData.detail : "Could not load learning progress.");
+            if (!historyResponse.ok) throw new Error(typeof historyData.detail === "string" ? historyData.detail : "Could not load recent quiz attempts.");
+
+            const topics = Array.isArray(progressData.topics) ? progressData.topics : [];
+            const attempts = Array.isArray(historyData.attempts) ? historyData.attempts : [];
+
+            totalAttempts.textContent = String(progressData.total_attempts ?? 0);
+            averageScore.textContent = Math.round(Number(progressData.average_score ?? 0)) + "%";
+            latestScore.textContent = attempts.length > 0 ? Math.round(Number(attempts[0].score_percentage ?? 0)) + "%" : "—";
+
+            const weakTopics = topics.filter(topic => Number(topic.average_score ?? 0) < 60);
+            if (weakTopics.length === 0) {
+                practiceTopics.innerHTML = '<div class="progress-empty">🎉 No topics currently need extra practice.</div>';
+            } else {
+                practiceTopics.innerHTML = weakTopics.map(topic => {
+                    const score = Math.round(Number(topic.average_score ?? 0));
+                    return '<div class="practice-item"><div class="practice-item-header"><strong>' +
+                        escapeHtml(topic.topic || "Unknown topic") + '</strong><span class="practice-score">' +
+                        score + '%</span></div><div class="progress-topic-details">' +
+                        escapeHtml(String(topic.attempts ?? 0)) + ' attempt(s) — keep practicing this topic.</div></div>';
+                }).join("");
+            }
+
+            if (attempts.length === 0) {
+                recentAttempts.innerHTML = '<div class="progress-empty">No quiz attempts yet.</div>';
+            } else {
+                recentAttempts.innerHTML = attempts.slice(0, 3).map(attempt => {
+                    const score = Math.round(Number(attempt.score_percentage ?? 0));
+                    return '<div class="recent-attempt"><div class="recent-attempt-header"><strong>' +
+                        escapeHtml(attempt.topic || "Untitled topic") + '</strong><span class="recent-attempt-score">' +
+                        score + '%</span></div><div class="progress-topic-details">' +
+                        escapeHtml(String(attempt.correct_answers ?? 0)) + ' / ' +
+                        escapeHtml(String(attempt.total_questions ?? 0)) + ' correct · ' +
+                        escapeHtml(formatProgressDate(attempt.created_at)) + '</div></div>';
+                }).join("");
+            }
+
+            if (topics.length === 0) {
+                progressTopics.innerHTML = '<div class="progress-empty">No quiz progress yet.</div>';
+            } else {
+                progressTopics.innerHTML = topics.map(topic => {
+                    const score = Math.round(Number(topic.average_score ?? 0));
+                    return '<div class="progress-topic"><div class="progress-topic-header"><div class="progress-topic-name">' +
+                        escapeHtml(topic.topic || "Unknown topic") + '</div><div class="progress-topic-score">' +
+                        score + '%</div></div><div class="progress-topic-details">Attempts: ' +
+                        escapeHtml(String(topic.attempts ?? 0)) + '</div></div>';
+                }).join("");
+            }
+
+            progressStatus.className = "progress-status";
+            progressStatus.textContent = "";
+        } catch (error) {
+            console.error("Progress dashboard load failed:", error);
+            progressStatus.textContent = "⚠️ Could not load dashboard: " + error.message;
+            progressStatus.className = "progress-status visible error";
+        }
+    }
+
+    loadProgress();
+
+
+// ========================================================
 
 
 
@@ -6058,7 +6460,7 @@
     // Load saved quiz attempts when the page opens.
 
     loadQuizHistory();
-
+    loadSavedFlashcards();
 
 
 
