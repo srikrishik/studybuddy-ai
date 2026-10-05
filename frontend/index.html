@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 
+
+
 <html lang="en">
+
+
 
 <head>
 
+
+
     <meta charset="UTF-8">
 
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
 
 
 
@@ -14,534 +26,1481 @@
 
 
 
+
+
+
+
     <style>
 
-        \* {
+
+
+        * {
+
+
 
             box-sizing: border-box;
 
+
+
         }
+
+
+
+
 
 
 
         body {
 
+
+
             margin: 0;
+
+
 
             font-family: Arial, sans-serif;
 
+
+
             background: #f4f7fb;
+
+
 
             color: #1e293b;
 
+
+
         }
+
+
+
+
 
 
 
         header {
 
+
+
             background: #ffffff;
+
+
 
             padding: 20px 8%;
 
+
+
             border-bottom: 1px solid #e2e8f0;
 
+
+
         }
+
+
+
+
 
 
 
         header h2 {
 
+
+
             margin: 0;
+
+
 
             color: #4f46e5;
 
+
+
         }
+
+
+
+
 
 
 
         main {
 
+
+
             max-width: 850px;
+
+
 
             margin: 60px auto;
 
+
+
             padding: 0 20px;
 
+
+
         }
+
+
+
+
 
 
 
         .intro {
 
+
+
             text-align: center;
+
+
 
             margin-bottom: 35px;
 
+
+
         }
+
+
+
+
 
 
 
         .intro h1 {
 
+
+
             font-size: 36px;
+
+
 
             margin-bottom: 10px;
 
+
+
         }
+
+
+
+
 
 
 
         .intro p {
 
+
+
             color: #64748b;
+
+
 
             line-height: 1.6;
 
+
+
         }
+
+
+
+
 
 
 
         .feature-box {
 
+
+
             background: white;
+
+
 
             padding: 25px;
 
+
+
             border-radius: 16px;
+
+
 
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
 
+
+
             margin-bottom: 25px;
 
+
+
         }
+
+
+
+
 
 
 
         .feature-title {
 
+
+
             margin-top: 0;
+
+
 
             color: #312e81;
 
+
+
         }
+
+
+
+
 
 
 
         label {
 
+
+
             display: block;
+
+
 
             margin-bottom: 10px;
 
+
+
             font-weight: bold;
 
+
+
         }
+
+
+
+
 
 
 
         textarea,
 
+
+
         input,
+
+
 
         select {
 
+
+
             width: 100%;
+
+
 
             padding: 15px;
 
+
+
             border: 1px solid #cbd5e1;
+
+
 
             border-radius: 10px;
 
+
+
             font-size: 16px;
+
+
 
             font-family: inherit;
 
+
+
         }
+
+
+
+
 
 
 
         textarea {
 
+
+
             min-height: 140px;
+
+
 
             resize: vertical;
 
+
+
         }
+
+
+
+
 
 
 
         textarea:focus,
 
+
+
         input:focus,
+
+
 
         select:focus {
 
+
+
             outline: 2px solid #a5b4fc;
+
+
 
             border-color: #4f46e5;
 
+
+
         }
+
+
+
+
 
 
 
         button {
 
+
+
             width: 100%;
+
+
 
             margin-top: 15px;
 
+
+
             padding: 14px;
+
+
 
             border: none;
 
+
+
             border-radius: 10px;
+
+
 
             background: #4f46e5;
 
+
+
             color: white;
+
+
 
             font-size: 16px;
 
+
+
             font-weight: bold;
+
+
 
             cursor: pointer;
 
+
+
             transition: background 0.2s;
 
+
+
         }
+
+
+
+
 
 
 
         button:hover:not(:disabled) {
 
+
+
             background: #4338ca;
 
+
+
         }
+
+
+
+
 
 
 
         button:disabled {
 
+
+
             opacity: 0.7;
+
+
 
             cursor: wait;
 
+
+
         }
+
+
+
+
 
 
 
         .loading {
 
+
+
             display: none;
+
+
 
             align-items: center;
 
+
+
             justify-content: center;
+
+
 
             gap: 12px;
 
+
+
             margin-top: 20px;
+
+
 
             padding: 16px;
 
+
+
             background: #eef2ff;
+
+
 
             border-radius: 10px;
 
+
+
             color: #4338ca;
+
+
 
             font-weight: bold;
 
+
+
         }
+
+
+
+
 
 
 
         .loading.visible {
 
+
+
             display: flex;
 
+
+
         }
+
+
+
+
 
 
 
         .spinner {
 
+
+
             width: 22px;
+
+
 
             height: 22px;
 
+
+
             border: 3px solid #c7d2fe;
+
+
 
             border-top-color: #4f46e5;
 
+
+
             border-radius: 50%;
+
+
 
             animation: spin 0.8s linear infinite;
 
+
+
             flex-shrink: 0;
 
+
+
         }
+
+
+
+
 
 
 
         @keyframes spin {
 
+
+
             to {
+
+
 
                 transform: rotate(360deg);
 
+
+
             }
 
+
+
         }
+
+
+
+
 
 
 
         .result {
 
+
+
             margin-top: 25px;
+
+
 
             padding: 25px;
 
+
+
             background: #f8fafc;
+
+
 
             border-radius: 10px;
 
+
+
             line-height: 1.7;
+
+
 
             display: none;
 
+
+
             overflow-wrap: anywhere;
 
+
+
         }
+
+
+
+
 
 
 
         .result.visible {
 
+
+
             display: block;
 
+
+
         }
+
+
+
+
 
 
 
         .result.error {
 
+
+
             color: #b91c1c;
+
+
 
             background: #fef2f2;
 
+
+
         }
+
+
+
+
 
 
 
         .result h1,
 
+
+
         .result h2,
+
+
 
         .result h3 {
 
+
+
             color: #312e81;
+
+
 
             margin-top: 24px;
 
+
+
         }
+
+
+
+
 
 
 
         .result h1:first-child,
 
+
+
         .result h2:first-child,
+
+
 
         .result h3:first-child {
 
+
+
             margin-top: 0;
 
+
+
         }
+
+
+
+
 
 
 
         .result ul,
 
+
+
         .result ol {
+
+
 
             padding-left: 25px;
 
+
+
         }
+
+
+
+
 
 
 
         .result li {
 
+
+
             margin-bottom: 8px;
 
+
+
         }
+
+
+
+
 
 
 
         .result code {
 
+
+
             background: #e2e8f0;
+
+
 
             padding: 2px 6px;
 
+
+
             border-radius: 5px;
+
+
 
             font-family: Consolas, monospace;
 
+
+
         }
+
+
+
+
 
 
 
         .result pre {
 
+
+
             background: #1e293b;
+
+
 
             color: #f8fafc;
 
+
+
             padding: 18px;
+
+
 
             border-radius: 10px;
 
+
+
             overflow-x: auto;
+
+
 
             line-height: 1.5;
 
+
+
         }
+
+
+
+
 
 
 
         .result pre code {
 
+
+
             background: transparent;
+
+
 
             padding: 0;
 
+
+
             color: inherit;
 
+
+
         }
+
+
+
+
 
 
 
         .result strong {
 
+
+
             color: #1e293b;
 
+
+
         }
+
+
+
+
 
 
 
         .difficulty-label {
 
+
+
             margin-top: 18px;
 
+
+
         }
+
+
+
+
 
 
 
         footer {
 
+
+
             text-align: center;
+
+
 
             padding: 25px;
 
+
+
             color: #64748b;
 
+
+
             font-size: 14px;
+
+
 
         }
 
 
 
-    
+
+
+
+
+
+
     .document-status {
+
         margin-top: 15px;
+
         padding: 12px 15px;
+
         border-radius: 10px;
+
         background: #f1f5f9;
+
         color: #475569;
+
         display: none;
+
         line-height: 1.5;
+
     }
 
+
+
     .document-status.visible {
+
+        display: block;
+
+    }
+
+
+
+    .document-status.success {
+
+        background: #ecfdf5;
+
+        color: #047857;
+
+    }
+
+
+
+    .document-status.error {
+
+        background: #fef2f2;
+
+        color: #b91c1c;
+
+    }
+
+
+
+    .document-actions {
+
+        display: flex;
+
+        gap: 10px;
+
+        margin-top: 10px;
+
+    }
+
+
+
+    .document-actions button {
+
+        margin-top: 0;
+
+    }
+
+
+
+    .secondary-button {
+
+        background: #64748b;
+
+    }
+
+
+
+    .secondary-button:hover:not(:disabled) {
+
+        background: #475569;
+
+    }
+
+
+
+    .source-list {
+
+        margin-top: 20px;
+
+        padding: 15px;
+
+        background: #eef2ff;
+
+        border-radius: 10px;
+
+        font-size: 14px;
+
+    }
+
+
+
+    .source-list strong {
+
+        color: #312e81;
+
+    }
+
+
+
+    .source-item {
+
+        margin-top: 6px;
+
+    }
+
+
+
+
+
+    /* ========================================================
+
+       QUIZ HISTORY
+
+       ======================================================== */
+
+
+
+    .history-actions {
+
+        display: flex;
+
+        gap: 10px;
+
+        margin-top: 15px;
+
+    }
+
+
+
+    .history-actions button {
+
+        margin-top: 0;
+
+    }
+
+
+
+    .history-status {
+
+        margin-top: 15px;
+
+        padding: 12px 15px;
+
+        border-radius: 10px;
+
+        background: #f1f5f9;
+
+        color: #475569;
+
+        display: none;
+
+    }
+
+
+
+    .history-status.visible {
+
+        display: block;
+
+    }
+
+
+
+    .history-status.error {
+
+        background: #fef2f2;
+
+        color: #b91c1c;
+
+    }
+
+
+
+    .history-list {
+
+        display: grid;
+
+        gap: 12px;
+
+        margin-top: 20px;
+
+    }
+
+
+
+    .history-item {
+
+        padding: 16px;
+
+        background: white;
+
+        border: 1px solid #e2e8f0;
+
+        border-radius: 10px;
+
+    }
+
+
+
+    .history-item-header {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        gap: 15px;
+
+        align-items: center;
+
+    }
+
+
+
+    .history-topic {
+
+        margin: 0;
+
+        color: #312e81;
+
+        font-size: 18px;
+
+    }
+
+
+
+    .history-score {
+
+        font-weight: bold;
+
+        color: #047857;
+
+        white-space: nowrap;
+
+    }
+
+
+
+    .history-details {
+
+        margin-top: 8px;
+
+        color: #64748b;
+
+        font-size: 14px;
+
+        line-height: 1.6;
+
+    }
+
+
+
+    .history-empty {
+
+        margin-top: 20px;
+
+        padding: 20px;
+
+        text-align: center;
+
+        background: #f8fafc;
+
+        border-radius: 10px;
+
+        color: #64748b;
+
+    }
+
+
+
+    /* ========================================================
+
+       QUIZ
+
+       ======================================================== */
+
+
+
+    .quiz-question {
+
+        margin-top: 20px;
+
+    }
+
+
+
+    .quiz-question h3 {
+
+        margin: 0 0 18px;
+
+        color: #312e81;
+
+        line-height: 1.5;
+
+    }
+
+
+
+    .quiz-options {
+
+        display: grid;
+
+        gap: 10px;
+
+    }
+
+
+
+    .quiz-option {
+
+        width: 100%;
+
+        margin-top: 0;
+
+        text-align: left;
+
+        background: white;
+
+        color: #1e293b;
+
+        border: 1px solid #cbd5e1;
+
+        font-weight: normal;
+
+    }
+
+
+
+    .quiz-option:hover:not(:disabled) {
+
+        background: #eef2ff;
+
+    }
+
+
+
+    .quiz-option.correct {
+
+        background: #ecfdf5;
+
+        border-color: #10b981;
+
+        color: #047857;
+
+    }
+
+
+
+    .quiz-option.incorrect {
+
+        background: #fef2f2;
+
+        border-color: #ef4444;
+
+        color: #b91c1c;
+
+    }
+
+
+
+    .quiz-explanation {
+
+        margin-top: 18px;
+
+        padding: 15px;
+
+        background: #eef2ff;
+
+        border-radius: 10px;
+
+        line-height: 1.6;
+
+    }
+
+
+
+    .quiz-progress {
+
+        color: #64748b;
+
+        font-size: 14px;
+
+        margin-bottom: 10px;
+
+    }
+
+
+
+    .quiz-score {
+
+        text-align: center;
+
+        padding: 25px;
+
+        background: #eef2ff;
+
+        border-radius: 12px;
+
+    }
+
+
+
+    .quiz-score h2 {
+
+        color: #312e81;
+
+        margin-top: 0;
+
+    }
+
+
+
+
+
+    /* ========================================================
+       FLASHCARDS
+       ======================================================== */
+
+    .flashcard {
+        margin-top: 25px;
+        padding: 28px;
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 14px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+        min-height: 220px;
+    }
+
+    .flashcard-progress {
+        color: #64748b;
+        font-size: 14px;
+        margin-bottom: 18px;
+        font-weight: bold;
+    }
+
+    .flashcard-front-label,
+    .flashcard-back-label {
+        color: #4f46e5;
+        font-size: 13px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 8px;
+    }
+
+    .flashcard-front {
+        font-size: 23px;
+        font-weight: bold;
+        line-height: 1.45;
+        color: #1e293b;
+    }
+
+    .flashcard-back {
+        margin-top: 22px;
+        padding: 18px;
+        background: #eef2ff;
+        border-radius: 10px;
+        line-height: 1.6;
+        display: none;
+    }
+
+    .flashcard-back.visible {
         display: block;
     }
 
-    .document-status.success {
-        background: #ecfdf5;
-        color: #047857;
-    }
-
-    .document-status.error {
-        background: #fef2f2;
-        color: #b91c1c;
-    }
-
-    .document-actions {
-        display: flex;
+    .flashcard-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 10px;
-        margin-top: 10px;
+        margin-top: 18px;
     }
 
-    .document-actions button {
+    .flashcard-actions button {
         margin-top: 0;
     }
 
-    .secondary-button {
-        background: #64748b;
+    .revision-button {
+        background: #f59e0b;
     }
 
-    .secondary-button:hover:not(:disabled) {
-        background: #475569;
+    .revision-button:hover:not(:disabled) {
+        background: #d97706;
     }
 
-    .source-list {
-        margin-top: 20px;
-        padding: 15px;
+    .revision-button.marked {
+        background: #047857;
+    }
+
+    .flashcard-source {
+        margin-top: 16px;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+    .flashcard-complete {
+        text-align: center;
+        padding: 25px;
         background: #eef2ff;
-        border-radius: 10px;
-        font-size: 14px;
+        border-radius: 12px;
     }
 
-    .source-list strong {
+    .flashcard-complete h2 {
         color: #312e81;
+        margin-top: 0;
     }
 
-    .source-item {
-        margin-top: 6px;
+    @media (max-width: 600px) {
+        .flashcard-actions {
+            grid-template-columns: 1fr;
+        }
+
+        .flashcard {
+            padding: 20px;
+        }
+
+        .flashcard-front {
+            font-size: 20px;
+        }
     }
 
     @media (max-width: 600px) {
 
+
+
             main {
+
+
 
                 margin: 35px auto;
 
+
+
             }
+
+
+
+
 
 
 
             .intro h1 {
 
+
+
                 font-size: 28px;
 
+
+
             }
+
+
+
+
 
 
 
             .feature-box {
 
+
+
                 padding: 18px;
+
+
 
             }
 
+
+
         }
+
+
 
     </style>
 
+
+
 </head>
+
+
+
+
 
 
 
@@ -549,11 +1508,23 @@
 
 
 
+
+
+
+
 <header>
+
+
 
     <h2>StudyBuddy AI</h2>
 
+
+
 </header>
+
+
+
+
 
 
 
@@ -561,19 +1532,37 @@
 
 
 
+
+
+
+
     <section class="intro">
+
+
 
         <h1>Your personal AI study companion 📚</h1>
 
 
 
+
+
+
+
         <p>
+
+
 
             Ask questions, create study notes,
 
+
+
             understand difficult concepts, and learn one step at a time.
 
+
+
         </p>
+
+
 
     </section>
 
@@ -582,154 +1571,125 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
     <!-- =====================================================
+
+
 
          DOCUMENT UPLOAD / RAG
 
+
+
          ===================================================== -->
 
+
+
     <section class="feature-box">
+
+
 
         <h2 class="feature-title">📄 Study From Your PDF</h2>
 
+
+
         <p>
+
             Upload a text-based PDF and ask StudyBuddy questions
+
             using your study material.
+
         </p>
 
+
+
         <label for="documentFile">
+
             Choose a PDF
+
         </label>
 
+
+
         <input
+
             id="documentFile"
+
             type="file"
+
             accept="application/pdf"
+
         >
+
+
 
         <button id="uploadButton" type="button">
+
             Upload PDF
+
         </button>
 
-        <div
-            id="documentLoading"
-            class="loading"
-            role="status"
-            aria-live="polite"
-        >
-            <span class="spinner" aria-hidden="true"></span>
-            <span>Uploading and preparing your PDF...</span>
-        </div>
+
 
         <div
-            id="documentStatus"
-            class="document-status"
+
+            id="documentLoading"
+
+            class="loading"
+
+            role="status"
+
             aria-live="polite"
+
+        >
+
+            <span class="spinner" aria-hidden="true"></span>
+
+            <span>Uploading and preparing your PDF...</span>
+
+        </div>
+
+
+
+        <div
+
+            id="documentStatus"
+
+            class="document-status"
+
+            aria-live="polite"
+
         ></div>
+
+
 
         <div class="document-actions">
+
             <button
+
                 id="removeDocumentButton"
+
                 type="button"
+
                 class="secondary-button"
+
                 style="display: none;"
+
             >
+
                 Remove PDF
-            </button>
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-
-         AI TUTOR
-
-         ===================================================== -->
-
-
-
-    <section class="feature-box">
-
-
-
-        <h2 class="feature-title">🤖 Ask StudyBuddy</h2>
-
-
-
-        <form id="tutorForm">
-
-
-
-            <label for="question">
-
-                What would you like to learn?
-
-            </label>
-
-
-
-            <textarea
-
-                id="question"
-
-                placeholder="Example: Explain Python classes and objects with an example..."
-
-                required
-
-                maxlength="2000"
-
-            ></textarea>
-
-
-
-            <button id="askButton" type="submit">
-
-                Ask StudyBuddy
 
             </button>
 
-
-
-        </form>
-
-
-
-        <div
-
-            id="tutorLoading"
-
-            class="loading"
-
-            role="status"
-
-            aria-live="polite"
-
-        >
-
-            <span class="spinner" aria-hidden="true"></span>
-
-
-
-            <span>
-
-                StudyBuddy is thinking... This may take a few seconds.
-
-            </span>
-
         </div>
-
-
-
-        <div
-
-            id="tutorResult"
-
-            class="result"
-
-            aria-live="polite"
-
-        ></div>
 
 
 
@@ -739,9 +1699,17 @@
 
 
 
+
+
+
+
     <!-- =====================================================
 
-         STUDY NOTES
+
+
+         AI QUIZ
+
+
 
          ===================================================== -->
 
@@ -751,17 +1719,25 @@
 
 
 
-        <h2 class="feature-title">📝 Generate Study Notes</h2>
+        <h2 class="feature-title">🧠 Generate a Quiz</h2>
 
 
 
-        <form id="notesForm">
+        <p>
+
+            Upload a PDF above, choose a topic, and test your understanding.
+
+        </p>
 
 
 
-            <label for="topic">
+        <form id="quizForm">
 
-                What topic should I make notes about?
+
+
+            <label for="quizTopic">
+
+                Quiz topic
 
             </label>
 
@@ -769,11 +1745,11 @@
 
             <input
 
-                id="topic"
+                id="quizTopic"
 
                 type="text"
 
-                placeholder="Example: Python OOP"
+                placeholder="Example: Python loops"
 
                 required
 
@@ -783,61 +1759,31 @@
 
 
 
-            <label
+            <label for="quizNumber" class="difficulty-label">
 
-                for="difficulty"
-
-                class="difficulty-label"
-
-            >
-
-                Difficulty level
+                Number of questions
 
             </label>
 
 
 
-            <select id="difficulty">
+            <select id="quizNumber">
 
+                <option value="3">3</option>
 
+                <option value="5" selected>5</option>
 
-                <option value="beginner">
+                <option value="7">7</option>
 
-                    Beginner
-
-                </option>
-
-
-
-                <option value="intermediate">
-
-                    Intermediate
-
-                </option>
-
-
-
-                <option value="advanced">
-
-                    Advanced
-
-                </option>
-
-
+                <option value="10">10</option>
 
             </select>
 
 
 
-            <button
+            <button id="quizButton" type="submit">
 
-                id="notesButton"
-
-                type="submit"
-
-            >
-
-                Generate Study Notes
+                Generate Quiz
 
             </button>
 
@@ -849,7 +1795,7 @@
 
         <div
 
-            id="notesLoading"
+            id="quizLoading"
 
             class="loading"
 
@@ -861,13 +1807,7 @@
 
             <span class="spinner" aria-hidden="true"></span>
 
-
-
-            <span>
-
-                Creating your study notes...
-
-            </span>
+            <span>Generating your quiz...</span>
 
         </div>
 
@@ -875,7 +1815,7 @@
 
         <div
 
-            id="notesResult"
+            id="quizResult"
 
             class="result"
 
@@ -889,7 +1829,639 @@
 
 
 
+
+
+
+
+    <!-- =====================================================
+         FLASHCARDS
+         ===================================================== -->
+
+    <section class="feature-box">
+
+        <h2 class="feature-title">🃏 Flashcards</h2>
+
+        <p>
+            Turn your uploaded study material into quick question-and-answer
+            cards for revision.
+        </p>
+
+        <form id="flashcardForm">
+
+            <label for="flashcardTopic">
+                Flashcard topic
+            </label>
+
+            <input
+                id="flashcardTopic"
+                type="text"
+                placeholder="Example: Python loops"
+                required
+                maxlength="200"
+            >
+
+            <label for="flashcardNumber" class="difficulty-label">
+                Number of flashcards
+            </label>
+
+            <select id="flashcardNumber">
+                <option value="3">3</option>
+                <option value="5" selected>5</option>
+                <option value="7">7</option>
+                <option value="10">10</option>
+            </select>
+
+            <button id="flashcardButton" type="submit">
+                Generate Flashcards
+            </button>
+
+        </form>
+
+        <div
+            id="flashcardLoading"
+            class="loading"
+            role="status"
+            aria-live="polite"
+        >
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Creating your flashcards...</span>
+        </div>
+
+        <div
+            id="flashcardResult"
+            class="result"
+            aria-live="polite"
+        ></div>
+
+    </section>
+
+    <!-- =====================================================
+
+
+
+         QUIZ HISTORY
+
+
+
+         ===================================================== -->
+
+
+
+    <section class="feature-box">
+
+
+
+        <h2 class="feature-title">📊 Study History</h2>
+
+
+
+        <p>
+
+            View your completed quiz attempts and track your progress.
+
+        </p>
+
+
+
+        <div class="history-actions">
+
+            <button id="historyButton" type="button">
+
+                Refresh History
+
+            </button>
+
+        </div>
+
+
+
+        <div
+
+            id="historyStatus"
+
+            class="history-status"
+
+            role="status"
+
+            aria-live="polite"
+
+        ></div>
+
+
+
+        <div id="historyList"></div>
+
+
+
+    </section>
+
+
+
+
+
+    <!-- =====================================================
+
+
+
+         AI TUTOR
+
+
+
+         ===================================================== -->
+
+
+
+
+
+
+
+    <section class="feature-box">
+
+
+
+
+
+
+
+        <h2 class="feature-title">🤖 Ask StudyBuddy</h2>
+
+
+
+
+
+
+
+        <form id="tutorForm">
+
+
+
+
+
+
+
+            <label for="question">
+
+
+
+                What would you like to learn?
+
+
+
+            </label>
+
+
+
+
+
+
+
+            <textarea
+
+
+
+                id="question"
+
+
+
+                placeholder="Example: Explain Python classes and objects with an example..."
+
+
+
+                required
+
+
+
+                maxlength="2000"
+
+
+
+            ></textarea>
+
+
+
+
+
+
+
+            <button id="askButton" type="submit">
+
+
+
+                Ask StudyBuddy
+
+
+
+            </button>
+
+
+
+
+
+
+
+        </form>
+
+
+
+
+
+
+
+        <div
+
+
+
+            id="tutorLoading"
+
+
+
+            class="loading"
+
+
+
+            role="status"
+
+
+
+            aria-live="polite"
+
+
+
+        >
+
+
+
+            <span class="spinner" aria-hidden="true"></span>
+
+
+
+
+
+
+
+            <span>
+
+
+
+                StudyBuddy is thinking... This may take a few seconds.
+
+
+
+            </span>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div
+
+
+
+            id="tutorResult"
+
+
+
+            class="result"
+
+
+
+            aria-live="polite"
+
+
+
+        ></div>
+
+
+
+
+
+
+
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- =====================================================
+
+
+
+         STUDY NOTES
+
+
+
+         ===================================================== -->
+
+
+
+
+
+
+
+    <section class="feature-box">
+
+
+
+
+
+
+
+        <h2 class="feature-title">📝 Generate Study Notes</h2>
+
+
+
+
+
+
+
+        <form id="notesForm">
+
+
+
+
+
+
+
+            <label for="topic">
+
+
+
+                What topic should I make notes about?
+
+
+
+            </label>
+
+
+
+
+
+
+
+            <input
+
+
+
+                id="topic"
+
+
+
+                type="text"
+
+
+
+                placeholder="Example: Python OOP"
+
+
+
+                required
+
+
+
+                maxlength="200"
+
+
+
+            >
+
+
+
+
+
+
+
+            <label
+
+
+
+                for="difficulty"
+
+
+
+                class="difficulty-label"
+
+
+
+            >
+
+
+
+                Difficulty level
+
+
+
+            </label>
+
+
+
+
+
+
+
+            <select id="difficulty">
+
+
+
+
+
+
+
+                <option value="beginner">
+
+
+
+                    Beginner
+
+
+
+                </option>
+
+
+
+
+
+
+
+                <option value="intermediate">
+
+
+
+                    Intermediate
+
+
+
+                </option>
+
+
+
+
+
+
+
+                <option value="advanced">
+
+
+
+                    Advanced
+
+
+
+                </option>
+
+
+
+
+
+
+
+            </select>
+
+
+
+
+
+
+
+            <button
+
+
+
+                id="notesButton"
+
+
+
+                type="submit"
+
+
+
+            >
+
+
+
+                Generate Study Notes
+
+
+
+            </button>
+
+
+
+
+
+
+
+        </form>
+
+
+
+
+
+
+
+        <div
+
+
+
+            id="notesLoading"
+
+
+
+            class="loading"
+
+
+
+            role="status"
+
+
+
+            aria-live="polite"
+
+
+
+        >
+
+
+
+            <span class="spinner" aria-hidden="true"></span>
+
+
+
+
+
+
+
+            <span>
+
+
+
+                Creating your study notes...
+
+
+
+            </span>
+
+
+
+        </div>
+
+
+
+
+
+
+
+        <div
+
+
+
+            id="notesResult"
+
+
+
+            class="result"
+
+
+
+            aria-live="polite"
+
+
+
+        ></div>
+
+
+
+
+
+
+
+    </section>
+
+
+
+
+
+
+
 </main>
+
+
+
+
+
+
 
 
 
@@ -897,9 +2469,19 @@
 
 <footer>
 
+
+
     StudyBuddy AI · Learn something new every day
 
+
+
 </footer>
+
+
+
+
+
+
 
 
 
@@ -909,11 +2491,23 @@
 
 
 
+
+
+
+
     // ========================================================
+
+
 
     // MARKDOWN → HTML FORMATTER
 
+
+
     // ========================================================
+
+
+
+
 
 
 
@@ -921,19 +2515,41 @@
 
 
 
+
+
+
+
         return text
+
+
 
             .replace(/&/g, "&amp;")
 
+
+
             .replace(/</g, "&lt;")
+
+
 
             .replace(/>/g, "&gt;")
 
+
+
             .replace(/"/g, "&quot;")
+
+
 
             .replace(/'/g, "&#039;");
 
+
+
     }
+
+
+
+
+
+
 
 
 
@@ -943,15 +2559,31 @@
 
 
 
+
+
+
+
         const lines = text.split("\n");
+
+
+
+
 
 
 
         let html = "";
 
+
+
         let inCodeBlock = false;
 
+
+
         let codeContent = "";
+
+
+
+
 
 
 
@@ -959,9 +2591,19 @@
 
 
 
+
+
+
+
             // Code block start/end
 
-            if (line.trim().startsWith("\`\`\`")) {
+
+
+            if (line.trim().startsWith("\\`\\`\\`")) {
+
+
+
+
 
 
 
@@ -969,9 +2611,19 @@
 
 
 
+
+
+
+
                     inCodeBlock = true;
 
+
+
                     codeContent = "";
+
+
+
+
 
 
 
@@ -979,25 +2631,51 @@
 
 
 
+
+
+
+
                     html += "<pre><code>"
 
+
+
                         + escapeHtml(codeContent.trim())
+
+
 
                         + "</code></pre>";
 
 
 
+
+
+
+
                     inCodeBlock = false;
 
+
+
                     codeContent = "";
+
+
 
                 }
 
 
 
+
+
+
+
                 continue;
 
+
+
             }
+
+
+
+
 
 
 
@@ -1005,11 +2683,25 @@
 
 
 
+
+
+
+
                 codeContent += line + "\n";
+
+
 
                 continue;
 
+
+
             }
+
+
+
+
+
+
 
 
 
@@ -1017,15 +2709,31 @@
 
             // Empty line
 
+
+
             if (line.trim() === "") {
+
+
+
+
 
 
 
                 html += "<br>";
 
+
+
                 continue;
 
+
+
             }
+
+
+
+
+
+
 
 
 
@@ -1033,21 +2741,41 @@
 
             // Headings
 
+
+
             if (line.startsWith("### ")) {
+
+
+
+
 
 
 
                 html += "<h3>"
 
+
+
                     + formatInline(line.substring(4))
+
+
 
                     + "</h3>";
 
 
 
+
+
+
+
                 continue;
 
+
+
             }
+
+
+
+
 
 
 
@@ -1055,17 +2783,35 @@
 
 
 
+
+
+
+
                 html += "<h2>"
 
+
+
                     + formatInline(line.substring(3))
+
+
 
                     + "</h2>";
 
 
 
+
+
+
+
                 continue;
 
+
+
             }
+
+
+
+
 
 
 
@@ -1073,17 +2819,37 @@
 
 
 
+
+
+
+
                 html += "<h1>"
 
+
+
                     + formatInline(line.substring(2))
+
+
 
                     + "</h1>";
 
 
 
+
+
+
+
                 continue;
 
+
+
             }
+
+
+
+
+
+
 
 
 
@@ -1091,31 +2857,63 @@
 
             // Bullet points
 
+
+
             if (
 
-                line.trim().startsWith("\* ") ||
+
+
+                line.trim().startsWith("\\* ") ||
+
+
 
                 line.trim().startsWith("- ")
+
+
 
             ) {
 
 
 
+
+
+
+
                 html += "<ul><li>"
+
+
 
                     + formatInline(
 
+
+
                         line.trim().substring(2)
 
+
+
                     )
+
+
 
                     + "</li></ul>";
 
 
 
+
+
+
+
                 continue;
 
+
+
             }
+
+
+
+
+
+
 
 
 
@@ -1123,25 +2921,47 @@
 
             // Numbered list
 
-            if (/^\s\*\d+\\.\s/.test(line)) {
+
+
+            if (/^\s\\*\d+\\\\.\s/.test(line)) {
+
+
+
+
 
 
 
                 const content = line
 
-                    .replace(/^\s\*\d+\\.\s/, "");
+
+
+                    .replace(/^\s\\*\d+\\\\.\s/, "");
+
+
+
+
 
 
 
                 html += "<ol><li>"
 
+
+
                     + formatInline(content)
+
+
 
                     + "</li></ol>";
 
 
 
+
+
+
+
                 continue;
+
+
 
             }
 
@@ -1149,15 +2969,35 @@
 
 
 
+
+
+
+
+
+
             // Normal paragraph
+
+
 
             html += "<p>"
 
+
+
                 + formatInline(line)
+
+
 
                 + "</p>";
 
+
+
         }
+
+
+
+
+
+
 
 
 
@@ -1165,15 +3005,27 @@
 
         // Handle unfinished code block
 
+
+
         if (inCodeBlock && codeContent) {
+
+
+
+
 
 
 
             html += "<pre><code>"
 
+
+
                 + escapeHtml(codeContent.trim())
 
+
+
                 + "</code></pre>";
+
+
 
         }
 
@@ -1181,9 +3033,23 @@
 
 
 
+
+
+
+
+
+
         return html;
 
+
+
     }
+
+
+
+
+
+
 
 
 
@@ -1193,35 +3059,69 @@
 
 
 
+
+
+
+
         let formatted = escapeHtml(text);
+
+
+
+
 
 
 
         // Bold
 
+
+
         formatted = formatted.replace(
 
-            /\\\*\\\*(.\*?)\\\*\\\*/g,
+
+
+            /\\\\\\*\\\\\\*(.\\*?)\\\\\\*\\\\\\*/g,
+
+
 
             "<strong>$1</strong>"
 
+
+
         );
+
+
+
+
 
 
 
         // Inline code
 
+
+
         formatted = formatted.replace(
 
-            /\`([^\`]+)\`/g,
+
+
+            /\\`([^\\`]+)\\`/g,
+
+
 
             "<code>$1</code>"
+
+
 
         );
 
 
 
+
+
+
+
         return formatted;
+
+
 
     }
 
@@ -1230,217 +3130,440 @@
 
 
 
+
+
+
+
+
+
+
     // ========================================================
+
+
 
     // DOCUMENT UPLOAD / RAG
 
+
+
     // ========================================================
 
+
+
     const documentFile =
+
         document.getElementById("documentFile");
 
+
+
     const uploadButton =
+
         document.getElementById("uploadButton");
 
+
+
     const documentLoading =
+
         document.getElementById("documentLoading");
 
+
+
     const documentStatus =
+
         document.getElementById("documentStatus");
 
+
+
     const removeDocumentButton =
+
         document.getElementById("removeDocumentButton");
 
+
+
     let activeDocumentId = null;
+
     let documentLoadingState = false;
 
 
+
+
+
     uploadButton.addEventListener(
+
         "click",
+
         async function () {
 
+
+
             if (documentLoadingState) {
+
                 return;
+
             }
+
+
 
             const file = documentFile.files[0];
 
+
+
             if (!file) {
+
                 documentStatus.textContent =
+
                     "Please choose a PDF file first.";
 
+
+
                 documentStatus.className =
+
                     "document-status visible error";
 
+
+
                 return;
+
             }
+
+
 
             if (file.type !== "application/pdf") {
+
                 documentStatus.textContent =
+
                     "Only PDF files are supported.";
 
+
+
                 documentStatus.className =
+
                     "document-status visible error";
 
+
+
                 return;
+
             }
+
+
 
             documentLoadingState = true;
 
+
+
             uploadButton.disabled = true;
+
             uploadButton.textContent = "Uploading...";
+
+
 
             documentLoading.classList.add("visible");
 
+
+
             documentStatus.className =
+
                 "document-status";
+
+
 
             documentStatus.textContent = "";
 
+
+
             try {
+
+
 
                 const formData = new FormData();
 
+
+
                 formData.append("file", file);
 
+
+
                 const response = await fetch(
+
                     "http://127.0.0.1:8000/documents",
+
                     {
+
                         method: "POST",
+
                         body: formData
+
                     }
+
                 );
+
+
 
                 let data;
 
+
+
                 try {
+
                     data = await response.json();
+
                 } catch {
+
                     throw new Error(
+
                         "The server returned an invalid response."
+
                     );
+
                 }
+
+
 
                 if (!response.ok) {
+
                     throw new Error(
+
                         typeof data.detail === "string"
+
                             ? data.detail
+
                             : "PDF upload failed. Please try again."
+
                     );
+
                 }
 
+
+
                 if (!data.document_id) {
+
                     throw new Error(
+
                         "The server did not return a document ID."
+
                     );
+
                 }
+
+
 
                 activeDocumentId = data.document_id;
 
+
+
                 documentStatus.textContent =
+
                     "✅ PDF ready: " +
+
                     data.filename +
+
                     " · " +
+
                     data.pages +
+
                     " pages · " +
+
                     data.chunk_count +
+
                     " chunks. " +
+
                     "Your questions will now use this document.";
 
+
+
                 documentStatus.className =
+
                     "document-status visible success";
 
+
+
                 removeDocumentButton.style.display =
+
                     "block";
+
+
 
             } catch (error) {
 
+
+
                 console.error(
+
                     "Document upload failed:",
+
                     error
+
                 );
+
+
 
                 activeDocumentId = null;
 
+
+
                 documentStatus.textContent =
+
                     error.message;
 
+
+
                 documentStatus.className =
+
                     "document-status visible error";
 
+
+
                 removeDocumentButton.style.display =
+
                     "none";
+
+
 
             } finally {
 
+
+
                 documentLoadingState = false;
 
+
+
                 uploadButton.disabled = false;
+
                 uploadButton.textContent = "Upload PDF";
 
+
+
                 documentLoading.classList.remove(
+
                     "visible"
+
                 );
+
             }
+
         }
+
     );
+
+
+
 
 
     removeDocumentButton.addEventListener(
+
         "click",
+
         function () {
+
+
 
             activeDocumentId = null;
 
+
+
             documentFile.value = "";
 
+
+
             documentStatus.textContent =
+
                 "PDF removed. StudyBuddy is back to normal tutor mode.";
 
+
+
             documentStatus.className =
+
                 "document-status visible";
 
+
+
             removeDocumentButton.style.display =
+
                 "none";
+
         }
+
     );
 
 
+
+
+
     // ========================================================
+
+
 
     // TUTOR
 
+
+
     // ========================================================
+
+
+
+
 
 
 
     const tutorForm =
 
+
+
         document.getElementById("tutorForm");
+
+
+
+
 
 
 
     const questionInput =
 
+
+
         document.getElementById("question");
+
+
+
+
 
 
 
     const askButton =
 
+
+
         document.getElementById("askButton");
+
+
+
+
 
 
 
     const tutorLoading =
 
+
+
         document.getElementById("tutorLoading");
+
+
+
+
 
 
 
     const tutorResult =
 
+
+
         document.getElementById("tutorResult");
+
+
+
+
+
+
 
 
 
@@ -1452,11 +3575,25 @@
 
 
 
+
+
+
+
+
+
     tutorForm.addEventListener(
+
+
 
         "submit",
 
+
+
         async function (event) {
+
+
+
+
 
 
 
@@ -1464,27 +3601,57 @@
 
 
 
+
+
+
+
             if (tutorLoadingState) {
+
+
 
                 return;
 
+
+
             }
+
+
+
+
 
 
 
             const question =
 
+
+
                 questionInput.value.trim();
+
+
+
+
 
 
 
             if (!question) {
 
+
+
                 questionInput.focus();
+
+
 
                 return;
 
+
+
             }
+
+
+
+
+
+
 
 
 
@@ -1494,13 +3661,27 @@
 
 
 
+
+
+
+
             askButton.disabled = true;
+
+
+
+
 
 
 
             askButton.textContent =
 
+
+
                 "Generating answer...";
+
+
+
+
 
 
 
@@ -1508,13 +3689,27 @@
 
 
 
+
+
+
+
             tutorResult.classList.remove(
+
+
 
                 "visible",
 
+
+
                 "error"
 
+
+
             );
+
+
+
+
 
 
 
@@ -1524,34 +3719,73 @@
 
 
 
+
+
+
+
+
+
             try {
 
 
 
+
+
+
+
                 const endpoint = activeDocumentId
+
                     ? "http://127.0.0.1:8000/documents/ask"
+
                     : "http://127.0.0.1:8000/tutor/ask";
 
+
+
                 const requestBody = activeDocumentId
+
                     ? {
+
                         document_id: activeDocumentId,
+
                         question: question
+
                     }
+
                     : {
+
                         question: question
+
                     };
 
+
+
                 const response = await fetch(
+
                     endpoint,
+
                     {
+
                         method: "POST",
+
                         headers: {
+
                             "Content-Type":
+
                                 "application/json"
+
                         },
+
                         body: JSON.stringify(requestBody)
+
                     }
+
                 );
+
+
+
+
+
+
 
 
 
@@ -1561,7 +3795,15 @@
 
 
 
+
+
+
+
                 try {
+
+
+
+
 
 
 
@@ -1569,17 +3811,37 @@
 
 
 
+
+
+
+
                 } catch {
+
+
+
+
 
 
 
                     throw new Error(
 
+
+
                         "The server returned an invalid response."
+
+
 
                     );
 
+
+
                 }
+
+
+
+
+
+
 
 
 
@@ -1589,17 +3851,37 @@
 
 
 
+
+
+
+
                     throw new Error(
+
+
 
                         typeof data.detail === "string"
 
+
+
                             ? data.detail
+
+
 
                             : "The request failed. Please try again."
 
+
+
                     );
 
+
+
                 }
+
+
+
+
+
+
 
 
 
@@ -1607,74 +3889,149 @@
 
                 if (
 
+
+
                     typeof data.answer !== "string" ||
 
+
+
                     !data.answer.trim()
+
+
 
                 ) {
 
 
 
+
+
+
+
                     throw new Error(
+
+
 
                         "StudyBuddy returned an empty answer."
 
+
+
                     );
 
+
+
                 }
+
+
+
+
+
+
 
 
 
 
 
                 let resultHtml =
+
                     formatAIResponse(data.answer);
 
+
+
                 const answerText =
+
                     String(data.answer || "").toLowerCase();
 
+
+
                 const documentAnswerNotFound =
+
                     answerText.includes(
+
                         "not found in the uploaded document"
+
                     ) ||
+
                     answerText.includes(
+
                         "could not be found in the uploaded document"
+
                     );
 
+
+
                 if (
+
                     activeDocumentId &&
+
                     !documentAnswerNotFound &&
+
                     Array.isArray(data.sources) &&
+
                     data.sources.length > 0
+
                 ) {
+
                     resultHtml +=
+
                         '<div class="source-list">' +
+
                         '<strong>📚 Sources</strong>';
 
+
+
                     for (const source of data.sources) {
+
                         const page = escapeHtml(
+
                             String(source.page)
+
                         );
+
+
 
                         const chunk = escapeHtml(
+
                             String(source.chunk_id)
+
                         );
 
+
+
                         resultHtml +=
+
                             '<div class="source-item">' +
+
                             'Page ' + page +
+
                             ' · Chunk ' + chunk +
+
                             '</div>';
+
                     }
 
+
+
                     resultHtml += '</div>';
+
                 }
+
+
 
                 tutorResult.innerHTML = resultHtml;
 
+
+
                 tutorResult.classList.add(
+
                     "visible"
+
                 );
+
+
+
+
+
+
 
 
 
@@ -1684,29 +4041,61 @@
 
 
 
+
+
+
+
                 console.error(
+
+
 
                     "Tutor request failed:",
 
+
+
                     error
 
+
+
                 );
+
+
+
+
 
 
 
                 tutorResult.textContent =
 
+
+
                     error.message;
+
+
+
+
 
 
 
                 tutorResult.classList.add(
 
+
+
                     "visible",
+
+
 
                     "error"
 
+
+
                 );
+
+
+
+
+
+
 
 
 
@@ -1716,7 +4105,15 @@
 
 
 
+
+
+
+
                 tutorLoadingState = false;
+
+
+
+
 
 
 
@@ -1724,21 +4121,41 @@
 
 
 
+
+
+
+
                 askButton.textContent =
+
+
 
                     "Ask StudyBuddy";
 
 
 
+
+
+
+
                 tutorLoading.classList.remove(
+
+
 
                     "visible"
 
+
+
                 );
+
+
 
             }
 
+
+
         }
+
+
 
     );
 
@@ -1746,47 +4163,99 @@
 
 
 
+
+
+
+
+
+
     // ========================================================
+
+
 
     // STUDY NOTES
 
+
+
     // ========================================================
+
+
+
+
 
 
 
     const notesForm =
 
+
+
         document.getElementById("notesForm");
+
+
+
+
 
 
 
     const topicInput =
 
+
+
         document.getElementById("topic");
+
+
+
+
 
 
 
     const difficultyInput =
 
+
+
         document.getElementById("difficulty");
+
+
+
+
 
 
 
     const notesButton =
 
+
+
         document.getElementById("notesButton");
+
+
+
+
 
 
 
     const notesLoading =
 
+
+
         document.getElementById("notesLoading");
+
+
+
+
 
 
 
     const notesResult =
 
+
+
         document.getElementById("notesResult");
+
+
+
+
+
+
 
 
 
@@ -1798,11 +4267,25 @@
 
 
 
+
+
+
+
+
+
     notesForm.addEventListener(
+
+
 
         "submit",
 
+
+
         async function (event) {
+
+
+
+
 
 
 
@@ -1810,9 +4293,17 @@
 
 
 
+
+
+
+
             if (notesLoadingState) {
 
+
+
                 return;
+
+
 
             }
 
@@ -1820,15 +4311,35 @@
 
 
 
+
+
+
+
+
+
             const topic =
+
+
 
                 topicInput.value.trim();
 
 
 
+
+
+
+
             const difficulty =
 
+
+
                 difficultyInput.value;
+
+
+
+
+
+
 
 
 
@@ -1838,11 +4349,25 @@
 
 
 
+
+
+
+
                 topicInput.focus();
+
+
 
                 return;
 
+
+
             }
+
+
+
+
+
+
 
 
 
@@ -1852,31 +4377,63 @@
 
 
 
+
+
+
+
             notesButton.disabled = true;
+
+
+
+
 
 
 
             notesButton.textContent =
 
+
+
                 "Generating notes...";
+
+
+
+
 
 
 
             notesLoading.classList.add(
 
+
+
                 "visible"
 
+
+
             );
+
+
+
+
 
 
 
             notesResult.classList.remove(
 
+
+
                 "visible",
+
+
 
                 "error"
 
+
+
             );
+
+
+
+
 
 
 
@@ -1886,41 +4443,87 @@
 
 
 
+
+
+
+
+
+
             try {
+
+
+
+
 
 
 
                 const response = await fetch(
 
+
+
                     "http://127.0.0.1:8000/study-notes",
 
+
+
                     {
+
+
 
                         method: "POST",
 
 
 
+
+
+
+
                         headers: {
+
+
 
                             "Content-Type":
 
+
+
                                 "application/json"
+
+
 
                         },
 
 
 
+
+
+
+
                         body: JSON.stringify({
+
+
 
                             topic: topic,
 
+
+
                             difficulty: difficulty
+
+
 
                         })
 
+
+
                     }
 
+
+
                 );
+
+
+
+
+
+
 
 
 
@@ -1930,7 +4533,15 @@
 
 
 
+
+
+
+
                 try {
+
+
+
+
 
 
 
@@ -1938,17 +4549,37 @@
 
 
 
+
+
+
+
                 } catch {
+
+
+
+
 
 
 
                     throw new Error(
 
+
+
                         "The server returned an invalid response."
+
+
 
                     );
 
+
+
                 }
+
+
+
+
+
+
 
 
 
@@ -1958,17 +4589,37 @@
 
 
 
+
+
+
+
                     throw new Error(
+
+
 
                         typeof data.detail === "string"
 
+
+
                             ? data.detail
+
+
 
                             : "Could not generate study notes."
 
+
+
                     );
 
+
+
                 }
+
+
+
+
+
+
 
 
 
@@ -1976,19 +4627,35 @@
 
                 if (
 
+
+
                     typeof data.notes !== "string" ||
 
+
+
                     !data.notes.trim()
+
+
 
                 ) {
 
 
 
+
+
+
+
                     throw new Error(
+
+
 
                         "StudyBuddy returned empty study notes."
 
+
+
                     );
+
+
 
                 }
 
@@ -1996,17 +4663,39 @@
 
 
 
+
+
+
+
+
+
                 notesResult.innerHTML =
+
+
 
                     formatAIResponse(data.notes);
 
 
 
+
+
+
+
                 notesResult.classList.add(
+
+
 
                     "visible"
 
+
+
                 );
+
+
+
+
+
+
 
 
 
@@ -2016,29 +4705,61 @@
 
 
 
+
+
+
+
                 console.error(
+
+
 
                     "Study notes request failed:",
 
+
+
                     error
 
+
+
                 );
+
+
+
+
 
 
 
                 notesResult.textContent =
 
+
+
                     error.message;
+
+
+
+
 
 
 
                 notesResult.classList.add(
 
+
+
                     "visible",
+
+
 
                     "error"
 
+
+
                 );
+
+
+
+
+
+
 
 
 
@@ -2048,7 +4769,15 @@
 
 
 
+
+
+
+
                 notesLoadingState = false;
+
+
+
+
 
 
 
@@ -2056,23 +4785,1281 @@
 
 
 
+
+
+
+
                 notesButton.textContent =
+
+
 
                     "Generate Study Notes";
 
 
 
+
+
+
+
                 notesLoading.classList.remove(
 
+
+
                     "visible"
+
+
+
+                );
+
+
+
+            }
+
+
+
+        }
+
+
+
+    );
+
+
+
+
+
+
+
+
+
+    // ========================================================
+
+    // AI QUIZ
+
+    // ========================================================
+
+
+
+    const quizForm = document.getElementById("quizForm");
+
+    const quizTopic = document.getElementById("quizTopic");
+
+    const quizNumber = document.getElementById("quizNumber");
+
+    const quizButton = document.getElementById("quizButton");
+
+    const quizLoading = document.getElementById("quizLoading");
+
+    const quizResult = document.getElementById("quizResult");
+
+
+
+    let quizLoadingState = false;
+
+    let currentQuiz = [];
+
+    let currentQuizIndex = 0;
+
+    let currentQuizScore = 0;
+
+
+
+    quizForm.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+
+
+        if (quizLoadingState) {
+
+            return;
+
+        }
+
+
+
+        if (!activeDocumentId) {
+
+            quizResult.textContent = "Please upload a PDF before generating a quiz.";
+
+            quizResult.className = "result visible error";
+
+            return;
+
+        }
+
+
+
+        const topic = quizTopic.value.trim();
+
+        const numberOfQuestions = Number(quizNumber.value);
+
+
+
+        if (!topic) {
+
+            quizTopic.focus();
+
+            return;
+
+        }
+
+
+
+        quizLoadingState = true;
+
+        quizButton.disabled = true;
+
+        quizButton.textContent = "Generating Quiz...";
+
+        quizLoading.classList.add("visible");
+
+        quizResult.className = "result";
+
+        quizResult.innerHTML = "";
+
+
+
+        try {
+
+            const response = await fetch(
+
+                "http://127.0.0.1:8000/quizzes/generate",
+
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type": "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        document_id: activeDocumentId,
+
+                        topic: topic,
+
+                        number_of_questions: numberOfQuestions
+
+                    })
+
+                }
+
+            );
+
+
+
+            let data;
+
+
+
+            try {
+
+                data = await response.json();
+
+            } catch {
+
+                throw new Error("The server returned an invalid response.");
+
+            }
+
+
+
+            if (!response.ok) {
+
+                throw new Error(
+
+                    typeof data.detail === "string"
+
+                        ? data.detail
+
+                        : "Could not generate the quiz."
 
                 );
 
             }
 
+
+
+            if (!Array.isArray(data.quiz) || data.quiz.length === 0) {
+
+                throw new Error("The server returned an empty quiz.");
+
+            }
+
+
+
+            currentQuiz = data.quiz;
+
+            currentQuizIndex = 0;
+
+            currentQuizScore = 0;
+
+
+
+            renderQuizQuestion();
+
+
+
+        } catch (error) {
+
+            console.error("Quiz generation failed:", error);
+
+
+
+            quizResult.textContent = error.message;
+
+            quizResult.className = "result visible error";
+
+
+
+        } finally {
+
+            quizLoadingState = false;
+
+            quizButton.disabled = false;
+
+            quizButton.textContent = "Generate Quiz";
+
+            quizLoading.classList.remove("visible");
+
         }
 
+    });
+
+
+
+
+
+    function renderQuizQuestion() {
+
+        const question = currentQuiz[currentQuizIndex];
+
+
+
+        quizResult.className = "result visible";
+
+
+
+        let html = "";
+
+
+
+        html += '<div class="quiz-progress">';
+
+        html += "Question " + (currentQuizIndex + 1);
+
+        html += " of " + currentQuiz.length;
+
+        html += "</div>";
+
+
+
+        html += '<div class="quiz-question">';
+
+        html += "<h3>" + escapeHtml(question.question) + "</h3>";
+
+        html += '<div class="quiz-options">';
+
+
+
+        question.options.forEach(function (option, index) {
+
+            html +=
+
+                '<button type="button" class="quiz-option" data-option-index="' +
+
+                index + '">' +
+
+                escapeHtml(option) +
+
+                "</button>";
+
+        });
+
+
+
+        html += "</div>";
+
+        html += '<div id="quizFeedback"></div>';
+
+        html += "</div>";
+
+
+
+        quizResult.innerHTML = html;
+
+
+
+        const optionButtons = quizResult.querySelectorAll(".quiz-option");
+
+
+
+        optionButtons.forEach(function (button) {
+
+            button.addEventListener("click", function () {
+
+                handleQuizAnswer(button, question);
+
+            });
+
+        });
+
+    }
+
+
+
+
+
+    function handleQuizAnswer(selectedButton, question) {
+
+        const optionButtons = quizResult.querySelectorAll(".quiz-option");
+
+        const feedback = document.getElementById("quizFeedback");
+
+
+
+        optionButtons.forEach(function (button) {
+
+            button.disabled = true;
+
+        });
+
+
+
+        const selectedAnswer = selectedButton.textContent;
+
+        const isCorrect = selectedAnswer === question.correct_answer;
+
+
+
+        if (isCorrect) {
+
+            currentQuizScore += 1;
+
+            selectedButton.classList.add("correct");
+
+        } else {
+
+            selectedButton.classList.add("incorrect");
+
+
+
+            optionButtons.forEach(function (button) {
+
+                if (button.textContent === question.correct_answer) {
+
+                    button.classList.add("correct");
+
+                }
+
+            });
+
+        }
+
+
+
+        feedback.className = "quiz-explanation";
+
+
+
+        feedback.innerHTML =
+
+            "<strong>" +
+
+            (isCorrect ? "Correct!" : "Not quite.") +
+
+            "</strong><br>" +
+
+            escapeHtml(question.explanation);
+
+
+
+        const nextButton = document.createElement("button");
+
+        nextButton.type = "button";
+
+        nextButton.className = "quiz-button";
+
+        nextButton.textContent =
+
+            currentQuizIndex === currentQuiz.length - 1
+
+                ? "Show Final Score"
+
+                : "Next Question";
+
+
+
+        nextButton.addEventListener("click", function () {
+
+            if (currentQuizIndex === currentQuiz.length - 1) {
+
+                renderQuizScore();
+
+            } else {
+
+                currentQuizIndex += 1;
+
+                renderQuizQuestion();
+
+            }
+
+        });
+
+
+
+        feedback.appendChild(document.createElement("br"));
+
+        feedback.appendChild(nextButton);
+
+    }
+
+
+
+
+
+    async function saveQuizAttempt() {
+
+        if (!activeDocumentId) {
+
+            return {
+
+                saved: false,
+
+                message: "No uploaded document is available."
+
+            };
+
+        }
+
+
+
+        const topic = quizTopic.value.trim();
+
+
+
+        try {
+
+            const response = await fetch(
+
+                "http://127.0.0.1:8000/quizzes/attempts",
+
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type": "application/json"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        document_id: activeDocumentId,
+
+                        topic: topic,
+
+                        total_questions: currentQuiz.length,
+
+                        correct_answers: currentQuizScore
+
+                    })
+
+                }
+
+            );
+
+
+
+            let data;
+
+
+
+            try {
+
+                data = await response.json();
+
+            } catch {
+
+                throw new Error(
+
+                    "The server returned an invalid response."
+
+                );
+
+            }
+
+
+
+            if (!response.ok) {
+
+                throw new Error(
+
+                    typeof data.detail === "string"
+
+                        ? data.detail
+
+                        : "Could not save the quiz attempt."
+
+                );
+
+            }
+
+
+
+            return {
+
+                saved: true,
+
+                attemptId: data.attempt_id
+
+            };
+
+
+
+        } catch (error) {
+
+            console.error(
+
+                "Quiz attempt save failed:",
+
+                error
+
+            );
+
+
+
+            return {
+
+                saved: false,
+
+                message: error.message
+
+            };
+
+        }
+
+    }
+
+
+
+
+
+    async function renderQuizScore() {
+
+        const percentage = Math.round(
+
+            (currentQuizScore / currentQuiz.length) * 100
+
+        );
+
+
+
+        quizResult.className = "result visible";
+
+
+
+        quizResult.innerHTML =
+
+            '<div class="quiz-score">' +
+
+            "<h2>Quiz Complete! 🎉</h2>" +
+
+            "<p>You scored <strong>" +
+
+            currentQuizScore +
+
+            " / " +
+
+            currentQuiz.length +
+
+            "</strong> (" +
+
+            percentage +
+
+            "%).</p>" +
+
+            '<p id="quizSaveStatus">💾 Saving your quiz attempt...</p>' +
+
+            '<button type="button" class="quiz-button" id="retryQuizButton" disabled>Try Again</button>' +
+
+            "</div>";
+
+
+
+        const saveResult = await saveQuizAttempt();
+
+        const saveStatus = document.getElementById("quizSaveStatus");
+
+        const retryButton = document.getElementById("retryQuizButton");
+
+
+
+        if (saveResult.saved) {
+
+            saveStatus.textContent =
+
+                "✅ Quiz attempt saved to your study history.";
+
+        } else {
+
+            saveStatus.textContent =
+
+                "⚠️ Quiz completed, but the attempt could not be saved: " +
+
+                saveResult.message;
+
+        }
+
+
+
+        retryButton.disabled = false;
+
+
+
+        retryButton.addEventListener("click", function () {
+
+            currentQuizIndex = 0;
+
+            currentQuizScore = 0;
+
+            renderQuizQuestion();
+
+        });
+
+    }
+
+
+
+
+
+
+    // ========================================================
+    // FLASHCARDS
+    // ========================================================
+
+    const flashcardForm =
+        document.getElementById("flashcardForm");
+
+    const flashcardTopic =
+        document.getElementById("flashcardTopic");
+
+    const flashcardNumber =
+        document.getElementById("flashcardNumber");
+
+    const flashcardButton =
+        document.getElementById("flashcardButton");
+
+    const flashcardLoading =
+        document.getElementById("flashcardLoading");
+
+    const flashcardResult =
+        document.getElementById("flashcardResult");
+
+    let flashcardLoadingState = false;
+    let currentFlashcards = [];
+    let currentFlashcardIndex = 0;
+    let revisionCards = new Set();
+    let flashcardAnswerVisible = false;
+
+    flashcardForm.addEventListener(
+        "submit",
+        async function (event) {
+
+            event.preventDefault();
+
+            if (flashcardLoadingState) {
+                return;
+            }
+
+            if (!activeDocumentId) {
+                flashcardResult.textContent =
+                    "Please upload a PDF before generating flashcards.";
+                flashcardResult.className =
+                    "result visible error";
+                return;
+            }
+
+            const topic = flashcardTopic.value.trim();
+            const numberOfCards = Number(
+                flashcardNumber.value
+            );
+
+            if (!topic) {
+                flashcardTopic.focus();
+                return;
+            }
+
+            flashcardLoadingState = true;
+            flashcardButton.disabled = true;
+            flashcardButton.textContent =
+                "Generating Flashcards...";
+            flashcardLoading.classList.add("visible");
+            flashcardResult.className = "result";
+            flashcardResult.innerHTML = "";
+
+            try {
+                const response = await fetch(
+                    "http://127.0.0.1:8000/flashcards/generate",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            document_id: activeDocumentId,
+                            topic: topic,
+                            number_of_cards: numberOfCards
+                        })
+                    }
+                );
+
+                let data;
+
+                try {
+                    data = await response.json();
+                } catch {
+                    throw new Error(
+                        "The server returned an invalid response."
+                    );
+                }
+
+                if (!response.ok) {
+                    throw new Error(
+                        typeof data.detail === "string"
+                            ? data.detail
+                            : "Could not generate flashcards."
+                    );
+                }
+
+                if (
+                    !Array.isArray(data.flashcards) ||
+                    data.flashcards.length === 0
+                ) {
+                    throw new Error(
+                        "The server returned no flashcards."
+                    );
+                }
+
+                currentFlashcards = data.flashcards;
+                currentFlashcardIndex = 0;
+                revisionCards = new Set();
+                flashcardAnswerVisible = false;
+
+                renderFlashcard();
+
+            } catch (error) {
+                console.error(
+                    "Flashcard generation failed:",
+                    error
+                );
+
+                flashcardResult.textContent =
+                    error.message;
+
+                flashcardResult.className =
+                    "result visible error";
+
+            } finally {
+                flashcardLoadingState = false;
+                flashcardButton.disabled = false;
+                flashcardButton.textContent =
+                    "Generate Flashcards";
+                flashcardLoading.classList.remove("visible");
+            }
+        }
     );
+
+
+    function renderFlashcard() {
+
+        const card =
+            currentFlashcards[currentFlashcardIndex];
+
+        if (!card) {
+            renderFlashcardComplete();
+            return;
+        }
+
+        flashcardAnswerVisible = false;
+
+        flashcardResult.className =
+            "result visible";
+
+        const isMarked =
+            revisionCards.has(currentFlashcardIndex);
+
+        let html = "";
+
+        html += '<div class="flashcard">';
+
+        html +=
+            '<div class="flashcard-progress">' +
+            "Card " +
+            (currentFlashcardIndex + 1) +
+            " of " +
+            currentFlashcards.length +
+            "</div>";
+
+        html +=
+            '<div class="flashcard-front-label">' +
+            "Question / Term" +
+            "</div>";
+
+        html +=
+            '<div class="flashcard-front">' +
+            escapeHtml(card.front) +
+            "</div>";
+
+        html +=
+            '<div id="flashcardBack" class="flashcard-back">';
+
+        html +=
+            '<div class="flashcard-back-label">' +
+            "Answer" +
+            "</div>";
+
+        html +=
+            "<div>" +
+            escapeHtml(card.back) +
+            "</div>";
+
+        html += "</div>";
+
+        html +=
+            '<div class="flashcard-actions">';
+
+        html +=
+            '<button type="button" id="revealFlashcardButton">' +
+            "Reveal Answer" +
+            "</button>";
+
+        html +=
+            '<button type="button" id="revisionFlashcardButton" ' +
+            'class="revision-button' +
+            (isMarked ? " marked" : "") +
+            '">' +
+            (isMarked
+                ? "✓ Marked for Revision"
+                : "☆ Mark for Revision") +
+            "</button>";
+
+        html += "</div>";
+
+        html +=
+            '<div class="flashcard-actions">';
+
+        html +=
+            '<button type="button" id="nextFlashcardButton">' +
+            (currentFlashcardIndex ===
+            currentFlashcards.length - 1
+                ? "Finish"
+                : "Next Card") +
+            "</button>";
+
+        html += "</div>";
+
+        if (card.source_page !== undefined) {
+            html +=
+                '<div class="flashcard-source">' +
+                "📚 Source: Page " +
+                escapeHtml(String(card.source_page)) +
+                "</div>";
+        }
+
+        html += "</div>";
+
+        flashcardResult.innerHTML = html;
+
+        document
+            .getElementById("revealFlashcardButton")
+            .addEventListener(
+                "click",
+                function () {
+
+                    const answer =
+                        document.getElementById(
+                            "flashcardBack"
+                        );
+
+                    flashcardAnswerVisible =
+                        !flashcardAnswerVisible;
+
+                    answer.classList.toggle(
+                        "visible",
+                        flashcardAnswerVisible
+                    );
+
+                    this.textContent =
+                        flashcardAnswerVisible
+                            ? "Hide Answer"
+                            : "Reveal Answer";
+                }
+            );
+
+        document
+            .getElementById("revisionFlashcardButton")
+            .addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        revisionCards.has(
+                            currentFlashcardIndex
+                        )
+                    ) {
+                        revisionCards.delete(
+                            currentFlashcardIndex
+                        );
+
+                        this.textContent =
+                            "☆ Mark for Revision";
+
+                        this.classList.remove(
+                            "marked"
+                        );
+
+                    } else {
+                        revisionCards.add(
+                            currentFlashcardIndex
+                        );
+
+                        this.textContent =
+                            "✓ Marked for Revision";
+
+                        this.classList.add(
+                            "marked"
+                        );
+                    }
+                }
+            );
+
+        document
+            .getElementById("nextFlashcardButton")
+            .addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        currentFlashcardIndex ===
+                        currentFlashcards.length - 1
+                    ) {
+                        renderFlashcardComplete();
+                        return;
+                    }
+
+                    currentFlashcardIndex += 1;
+                    renderFlashcard();
+                }
+            );
+    }
+
+
+    function renderFlashcardComplete() {
+
+        const markedCount =
+            revisionCards.size;
+
+        flashcardResult.className =
+            "result visible";
+
+        flashcardResult.innerHTML =
+            '<div class="flashcard-complete">' +
+            "<h2>Flashcards Complete! 🎉</h2>" +
+            "<p>You reviewed <strong>" +
+            currentFlashcards.length +
+            "</strong> flashcards.</p>" +
+            "<p>⭐ Marked for revision: <strong>" +
+            markedCount +
+            "</strong></p>" +
+            '<button type="button" id="restartFlashcardsButton">' +
+            "Review Again" +
+            "</button>" +
+            "</div>";
+
+        document
+            .getElementById("restartFlashcardsButton")
+            .addEventListener(
+                "click",
+                function () {
+                    currentFlashcardIndex = 0;
+                    renderFlashcard();
+                }
+            );
+    }
+
+
+    // ========================================================
+
+    // QUIZ HISTORY
+
+    // ========================================================
+
+
+
+    const historyButton = document.getElementById("historyButton");
+
+    const historyStatus = document.getElementById("historyStatus");
+
+    const historyList = document.getElementById("historyList");
+
+
+
+
+
+    function formatHistoryDate(dateText) {
+
+        if (!dateText) {
+
+            return "Unknown date";
+
+        }
+
+
+
+        const date = new Date(dateText.replace(" ", "T") + "Z");
+
+
+
+        if (Number.isNaN(date.getTime())) {
+
+            return dateText;
+
+        }
+
+
+
+        return date.toLocaleString();
+
+    }
+
+
+
+
+
+    async function loadQuizHistory() {
+
+        historyButton.disabled = true;
+
+        historyButton.textContent = "Loading History...";
+
+        historyStatus.className = "history-status";
+
+        historyStatus.textContent = "";
+
+        historyList.innerHTML = "";
+
+
+
+        try {
+
+            const response = await fetch(
+
+                "http://127.0.0.1:8000/quizzes/attempts"
+
+            );
+
+
+
+            let data;
+
+
+
+            try {
+
+                data = await response.json();
+
+            } catch {
+
+                throw new Error(
+
+                    "The server returned an invalid response."
+
+                );
+
+            }
+
+
+
+            if (!response.ok) {
+
+                throw new Error(
+
+                    typeof data.detail === "string"
+
+                        ? data.detail
+
+                        : "Could not load quiz history."
+
+                );
+
+            }
+
+
+
+            if (!Array.isArray(data.attempts)) {
+
+                throw new Error(
+
+                    "The server returned invalid quiz history data."
+
+                );
+
+            }
+
+
+
+            if (data.attempts.length === 0) {
+
+                historyList.innerHTML =
+
+                    '<div class="history-empty">' +
+
+                    "No quiz attempts saved yet." +
+
+                    "</div>";
+
+                return;
+
+            }
+
+
+
+            let html = '<div class="history-list">';
+
+
+
+            data.attempts.forEach(function (attempt) {
+
+                const score = Number(attempt.score_percentage);
+
+
+
+                html += '<div class="history-item">';
+
+                html += '<div class="history-item-header">';
+
+                html +=
+
+                    '<h3 class="history-topic">' +
+
+                    escapeHtml(attempt.topic || "Untitled topic") +
+
+                    "</h3>";
+
+                html +=
+
+                    '<div class="history-score">' +
+
+                    escapeHtml(String(Math.round(score))) +
+
+                    "%</div>";
+
+                html += "</div>";
+
+
+
+                html += '<div class="history-details">';
+
+                html +=
+
+                    "Score: " +
+
+                    escapeHtml(String(attempt.correct_answers)) +
+
+                    " / " +
+
+                    escapeHtml(String(attempt.total_questions));
+
+                html += "<br>";
+
+                html +=
+
+                    "Document: " +
+
+                    escapeHtml(attempt.filename || "Unknown document");
+
+                html += "<br>";
+
+                html +=
+
+                    "Completed: " +
+
+                    escapeHtml(formatHistoryDate(attempt.created_at));
+
+                html += "</div>";
+
+                html += "</div>";
+
+            });
+
+
+
+            html += "</div>";
+
+            historyList.innerHTML = html;
+
+
+
+        } catch (error) {
+
+            console.error(
+
+                "Quiz history load failed:",
+
+                error
+
+            );
+
+
+
+            historyStatus.textContent =
+
+                "⚠️ Could not load quiz history: " +
+
+                error.message;
+
+            historyStatus.className =
+
+                "history-status visible error";
+
+
+
+        } finally {
+
+            historyButton.disabled = false;
+
+            historyButton.textContent = "Refresh History";
+
+        }
+
+    }
+
+
+
+
+
+    historyButton.addEventListener(
+
+        "click",
+
+        loadQuizHistory
+
+    );
+
+
+
+
+
+    // Load saved quiz attempts when the page opens.
+
+    loadQuizHistory();
+
+
 
 
 
@@ -2080,6 +6067,12 @@
 
 
 
+
+
+
+
 </body>
+
+
 
 </html>

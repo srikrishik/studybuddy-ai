@@ -18,3 +18,5 @@ Thumbs.db
 
 # Uploaded documents
 backend/uploads/
+# Local SQLite database
+backend/studybuddy.db
